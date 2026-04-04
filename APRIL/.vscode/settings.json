@@ -1,0 +1,8 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "Set-Content": true,
+    "C:\\laragon\\bin\\php\\php-8.2.something\\php.exe": true,
+    "C:\\laragon\\bin\\php\\php-8.3.30-Win32-vs16-x64\\php.exe": true,
+    "mkdir": true
+  }
+}
