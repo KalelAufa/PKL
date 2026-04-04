@@ -635,7 +635,7 @@
         <div id="products" class="section-title">
             <h2>Produk Kami</h2>
         </div>
-        
+
         <div class="product-container">
             @isset($products)
                 @foreach ($products as $index => $product)
@@ -764,7 +764,7 @@
 			<img src="{{ asset('images/brand/viewsonic.png') }}" alt="">
 
 		</div>
-		
+
 	</div>
 
     <!-- Footer -->
@@ -778,7 +778,7 @@
                     <a href="https://www.instagram.com/triciptaniagasukses/"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-            
+
             <div class="footer-column">
                 <h3>Produk Kami</h3>
                 @isset($products)
@@ -789,13 +789,13 @@
                     <p>Tidak ada produk</p>
                 @endisset
             </div>
-            
+
             <div class="footer-column">
                 <h3>Kontak Kami</h3>
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <div>Perum Puri Indah Lestari FM-02, Suko, Sidoarjo, Jawa Timur, Indonesia</div>
+                        <div>Graha Kota Blok C4 No. 05 Suko, Sidoarjo, Jawa Timur, Indonesia</div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
