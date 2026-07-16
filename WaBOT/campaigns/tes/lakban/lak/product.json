@@ -1,0 +1,32 @@
+{
+  "id": "lak",
+  "name": "lak",
+  "category": "tes",
+  "subcategory": "lakban",
+  "price": {
+    "original": 9999999,
+    "discounted": 888,
+    "currency": "IDR"
+  },
+  "description": "oooo",
+  "cta": {
+    "text": "Hubungi Sekarang",
+    "link": "https://wa.me/628xxx",
+    "type": "whatsapp"
+  },
+  "broadcast": {
+    "sendImage": true,
+    "imageMode": "random",
+    "templateMode": "random",
+    "delay": {
+      "min": 8,
+      "max": 20
+    }
+  },
+  "variables": {
+    "stok": "Terbatas",
+    "garansi": "1 Tahun",
+    "lokasi": "Indonesia"
+  },
+  "active": true
+}

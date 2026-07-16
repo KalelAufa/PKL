@@ -1,0 +1,10 @@
+Hai {{nama}} 👋
+
+Lagi cari hijab yang nyaman dan elegan?
+Coba lihat koleksi *{{produk}}* kami.
+
+Harga spesial: *Rp {{harga_diskon}}* (normal Rp {{harga_asli}})
+{{deskripsi}}
+Stok: {{stok}} | Lokasi: {{lokasi}}
+
+{{cta_text}} sekarang: {{cta_link}}

@@ -1,0 +1,14 @@
+Halo {{nama}} 👋
+
+Ada promo keren buat kamu hari ini!
+
+🛍️ *{{produk}}*
+💰 ~~Rp {{harga_asli}}~~ → *Rp {{harga_diskon}}*
+📦 Stok: {{stok}}
+🛡️ Garansi: {{garansi}}
+
+{{deskripsi}}
+
+📲 *{{cta_text}}*: {{cta_link}}
+
+_Balas pesan ini ya kalau mau info lengkap_ 🙏

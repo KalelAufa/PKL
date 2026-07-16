@@ -1,0 +1,13 @@
+Halo {{nama}},
+
+Kami informasikan promo resmi untuk produk berikut:
+
+*{{produk}}*
+Harga normal: Rp {{harga_asli}}
+Harga promo : Rp {{harga_diskon}}
+
+{{deskripsi}}
+Stok: {{stok}} | Garansi: {{garansi}}
+
+Silakan {{cta_text}} melalui {{cta_link}}.
+Terima kasih.

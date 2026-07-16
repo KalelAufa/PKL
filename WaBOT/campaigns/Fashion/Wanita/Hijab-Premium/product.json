@@ -1,0 +1,32 @@
+{
+  "id": "hijab-premium",
+  "name": "Hijab Premium Silk",
+  "category": "Fashion",
+  "subcategory": "Wanita",
+  "price": {
+    "original": 159000,
+    "discounted": 99000,
+    "currency": "IDR"
+  },
+  "description": "Bahan silk lembut, ringan, dan tidak panas. Tersedia 8 warna.",
+  "cta": {
+    "text": "Chat Admin",
+    "link": "https://wa.me/6285551234567",
+    "type": "whatsapp"
+  },
+  "broadcast": {
+    "sendImage": true,
+    "imageMode": "random",
+    "templateMode": "random",
+    "delay": {
+      "min": 8,
+      "max": 20
+    }
+  },
+  "variables": {
+    "stok": "Terbatas",
+    "garansi": "7 Hari Tukar",
+    "lokasi": "Bandung"
+  },
+  "active": true
+}

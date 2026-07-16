@@ -1,0 +1,32 @@
+{
+  "id": "samsung-s27-ultra",
+  "name": "Samsung S27 Ultra",
+  "category": "Elektronik",
+  "subcategory": "Handphone",
+  "price": {
+    "original": 10000,
+    "discounted": 7500,
+    "currency": "IDR"
+  },
+  "description": "seri terbaru samsung ultra",
+  "cta": {
+    "text": "Hubungi Sekarang",
+    "link": "https://wa.me/628xxx",
+    "type": "whatsapp"
+  },
+  "broadcast": {
+    "sendImage": true,
+    "imageMode": "random",
+    "templateMode": "random",
+    "delay": {
+      "min": 8,
+      "max": 20
+    }
+  },
+  "variables": {
+    "stok": "Terbatas",
+    "garansi": "1 Tahun",
+    "lokasi": "Indonesia"
+  },
+  "active": true
+}
