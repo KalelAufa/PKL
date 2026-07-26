@@ -25,3 +25,15 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/database/database.sqlite
+/database/database.sqlite-wal
+/database/database.sqlite-shm
+
+# AI tools & local planning docs
+/.opencode/
+/CLAUDE.md
+/REFACTOR-PLAN.md
+
+# Figma reference screenshots (not production assets)
+/public/images/figma-*.png
+/public/images/live-*.png
