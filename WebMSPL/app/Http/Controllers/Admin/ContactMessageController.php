@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactReply;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
@@ -20,7 +22,9 @@ class ContactMessageController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.messages.index', compact('messages', 'filter'));
+        $unreadCount = ContactMessage::where('is_read', false)->count();
+
+        return view('admin.messages.index', compact('messages', 'filter', 'unreadCount'));
     }
 
     public function show(ContactMessage $message)
@@ -39,6 +43,28 @@ class ContactMessageController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function reply(Request $request, ContactMessage $message)
+    {
+        $request->validate(['reply_body' => 'required|string|max:5000']);
+
+        try {
+            Mail::to($message->email)->send(new ContactReply(
+                name: $message->name,
+                email: $message->email,
+                subjectLine: $message->service ?? 'Inquiry dari Website',
+                replyBody: $request->input('reply_body'),
+                originalMessage: $message->message,
+                sentAt: $message->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') . ' WIB',
+            ));
+        } catch (\Throwable) {
+            return response()->json(['success' => false, 'message' => 'Gagal mengirim balasan. Periksa konfigurasi email.'], 500);
+        }
+
+        $message->update(['is_read' => true]);
+
+        return response()->json(['success' => true, 'message' => 'Balasan berhasil dikirim.']);
     }
 
     public function destroy(ContactMessage $message)

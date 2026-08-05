@@ -26,16 +26,15 @@ class CompanySettingsController extends Controller
 
     public function index()
     {
-        foreach ($this->schema as $key => [$type, $label]) {
-            PageContent::firstOrCreate(
-                ['page' => 'company', 'key' => $key],
-                ['type' => $type, 'label' => $label, 'value' => null]
-            );
+        $existing = PageContent::where('page', 'company')->pluck('key')->all();
+
+        $missing = array_diff(array_keys($this->schema), $existing);
+        foreach ($missing as $key) {
+            [$type, $label] = $this->schema[$key];
+            PageContent::create(['page' => 'company', 'key' => $key, 'type' => $type, 'label' => $label, 'value' => null]);
         }
 
-        $settings = PageContent::where('page', 'company')
-            ->get()
-            ->keyBy('key');
+        $settings = PageContent::where('page', 'company')->get()->keyBy('key');
 
         return view('admin.company-settings.index', compact('settings'));
     }
@@ -56,9 +55,10 @@ class CompanySettingsController extends Controller
 
             if ($record->type === 'image') {
                 $fileKey = "file_{$record->id}";
-                if ($request->hasFile($fileKey) && $request->file($fileKey)->isValid()) {
+                if ($request->hasFile($fileKey)) {
+                    $request->validate([$fileKey => 'file|mimes:jpeg,png,jpg,webp,gif|max:5120']);
                     $file     = $request->file($fileKey);
-                    $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $file->getClientOriginalName());
+                    $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
                     $file->move(public_path('images'), $filename);
                     $record->value = $filename;
                 } else {

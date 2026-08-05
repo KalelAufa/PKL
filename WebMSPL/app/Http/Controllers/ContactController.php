@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Cache\RateLimiter;
 
 class ContactController extends Controller
@@ -33,19 +32,7 @@ class ContactController extends Controller
             'service' => 'nullable|string|max:255',
         ]);
 
-        $contactMessage = ContactMessage::create($validated);
-
-        Mail::raw(
-            "Pesan baru dari {$validated['name']} ({$validated['email']})\n\n"
-            . "Perusahaan: " . ($validated['company'] ?? '-') . "\n"
-            . "Telepon: " . ($validated['phone'] ?? '-') . "\n"
-            . "Layanan: " . ($validated['service'] ?? '-') . "\n\n"
-            . "Pesan:\n{$validated['message']}",
-            function ($message) {
-                $message->to(env('MAIL_TO_ADDRESS', 'info@ptmsp.co.id'))
-                    ->subject('Pesan Baru dari Form Kontak WebMSPL');
-            }
-        );
+        ContactMessage::create($validated);
 
         return response()->json([
             'success' => true,

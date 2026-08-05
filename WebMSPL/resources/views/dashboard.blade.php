@@ -30,62 +30,86 @@
     <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
 
         {{-- Total Berita --}}
-        <div class="bg-white rounded-2xl p-5 border border-msp-border hover:shadow-md transition group">
-            <div class="flex items-start justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-msp-blue/10 flex items-center justify-center">
-                    <i class="fas fa-newspaper text-msp-blue"></i>
+        <a href="{{ route('admin.news.index') }}"
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-blue/30 transition-all duration-200 flex flex-col">
+            <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #2A3F9E 0%, #5470d4 100%)"></div>
+            <div class="p-5 pt-6 flex flex-col flex-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-msp-blue/10 flex items-center justify-center shadow-sm">
+                        <i class="fas fa-newspaper text-msp-blue text-[16px]"></i>
+                    </div>
+                    <div class="w-7 h-7 rounded-lg bg-msp-bg flex items-center justify-center text-msp-gray-light group-hover:text-msp-blue group-hover:bg-msp-blue/10 transition">
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </div>
                 </div>
-                <a href="{{ route('admin.news.index') }}" class="text-[11px] text-msp-gray-light hover:text-msp-gold transition opacity-0 group-hover:opacity-100">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="font-hanken font-bold text-[32px] text-[#191C1E] leading-none tracking-tight">{{ $totalBerita }}</div>
+                <div class="font-hanken font-semibold text-[12px] text-msp-gray uppercase tracking-wider mt-2">Total Berita</div>
             </div>
-            <div class="font-hanken font-bold text-[28px] text-[#191C1E] leading-none">{{ $totalBerita }}</div>
-            <div class="font-hanken font-medium text-[12px] text-msp-gray-light uppercase tracking-wide mt-1.5">Total Berita</div>
-        </div>
+        </a>
 
         {{-- Total Layanan --}}
-        <div class="bg-white rounded-2xl p-5 border border-msp-border hover:shadow-md transition group">
-            <div class="flex items-start justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-msp-gold/10 flex items-center justify-center">
-                    <i class="fas fa-cogs text-msp-gold"></i>
+        <a href="{{ route('admin.services.index') }}"
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition-all duration-200 flex flex-col">
+            <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #F2A71B 0%, #FBC34C 100%)"></div>
+            <div class="p-5 pt-6 flex flex-col flex-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-msp-gold/10 flex items-center justify-center shadow-sm">
+                        <i class="fas fa-cogs text-msp-gold text-[16px]"></i>
+                    </div>
+                    <div class="w-7 h-7 rounded-lg bg-msp-bg flex items-center justify-center text-msp-gray-light group-hover:text-msp-gold group-hover:bg-msp-gold/10 transition">
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </div>
                 </div>
-                <a href="{{ route('admin.services.index') }}" class="text-[11px] text-msp-gray-light hover:text-msp-gold transition opacity-0 group-hover:opacity-100">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="font-hanken font-bold text-[32px] text-[#191C1E] leading-none tracking-tight">{{ $totalLayanan }}</div>
+                <div class="font-hanken font-semibold text-[12px] text-msp-gray uppercase tracking-wider mt-2">Total Layanan</div>
             </div>
-            <div class="font-hanken font-bold text-[28px] text-[#191C1E] leading-none">{{ $totalLayanan }}</div>
-            <div class="font-hanken font-medium text-[12px] text-msp-gray-light uppercase tracking-wide mt-1.5">Total Layanan</div>
-        </div>
+        </a>
 
         {{-- Pesan Baru --}}
-        <div class="bg-white rounded-2xl p-5 border border-msp-border hover:shadow-md transition group {{ $pesanBaru > 0 ? 'ring-1 ring-msp-gold/30' : '' }}">
-            <div class="flex items-start justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center {{ $pesanBaru > 0 ? 'bg-msp-gold/10' : 'bg-green-50' }}">
-                    <i class="fas fa-envelope {{ $pesanBaru > 0 ? 'text-msp-gold' : 'text-green-500' }}"></i>
+        <a href="{{ route('admin.messages.index') }}"
+           class="group relative bg-white rounded-2xl border overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col
+               {{ $pesanBaru > 0 ? 'border-amber-200 ring-1 ring-amber-100' : 'border-msp-border hover:border-green-200' }}">
+            <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl {{ $pesanBaru > 0 ? '' : '' }}"
+                 style="background: {{ $pesanBaru > 0 ? 'linear-gradient(90deg,#F2A71B 0%,#FBC34C 100%)' : 'linear-gradient(90deg,#22c55e 0%,#4ade80 100%)' }}"></div>
+            <div class="p-5 pt-6 flex flex-col flex-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-sm {{ $pesanBaru > 0 ? 'bg-amber-50' : 'bg-green-50' }}">
+                        <i class="fas fa-envelope text-[16px] {{ $pesanBaru > 0 ? 'text-amber-500' : 'text-green-500' }}"></i>
+                    </div>
+                    @if($pesanBaru > 0)
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-hanken font-bold bg-amber-50 text-amber-600 border border-amber-200">
+                            Baru
+                        </span>
+                    @else
+                        <div class="w-7 h-7 rounded-lg bg-msp-bg flex items-center justify-center text-msp-gray-light group-hover:text-green-500 group-hover:bg-green-50 transition">
+                            <i class="fas fa-check text-[10px]"></i>
+                        </div>
+                    @endif
                 </div>
-                <a href="{{ route('admin.messages.index') }}" class="text-[11px] text-msp-gray-light hover:text-msp-gold transition opacity-0 group-hover:opacity-100">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="font-hanken font-bold text-[32px] text-[#191C1E] leading-none tracking-tight">{{ $pesanBaru }}</div>
+                <div class="font-hanken font-semibold text-[12px] uppercase tracking-wider mt-2 {{ $pesanBaru > 0 ? 'text-amber-500' : 'text-msp-gray' }}">
+                    {{ $pesanBaru > 0 ? 'Belum Dibaca' : 'Semua Dibaca' }}
+                </div>
             </div>
-            <div class="font-hanken font-bold text-[28px] text-[#191C1E] leading-none">{{ $pesanBaru }}</div>
-            <div class="font-hanken font-medium text-[12px] uppercase tracking-wide mt-1.5 {{ $pesanBaru > 0 ? 'text-msp-gold' : 'text-msp-gray-light' }}">
-                {{ $pesanBaru > 0 ? 'Pesan Belum Dibaca' : 'Semua Sudah Dibaca' }}
-            </div>
-        </div>
+        </a>
 
         {{-- Total Tim --}}
-        <div class="bg-white rounded-2xl p-5 border border-msp-border hover:shadow-md transition group">
-            <div class="flex items-start justify-between mb-4">
-                <div class="w-10 h-10 rounded-xl bg-msp-sidebar/10 flex items-center justify-center">
-                    <i class="fas fa-user-tie text-msp-sidebar"></i>
+        <a href="{{ route('admin.team-members.index') }}"
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-navy/20 transition-all duration-200 flex flex-col">
+            <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #0B2145 0%, #2A3F9E 100%)"></div>
+            <div class="p-5 pt-6 flex flex-col flex-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-msp-navy/8 flex items-center justify-center shadow-sm">
+                        <i class="fas fa-user-tie text-msp-navy text-[16px]"></i>
+                    </div>
+                    <div class="w-7 h-7 rounded-lg bg-msp-bg flex items-center justify-center text-msp-gray-light group-hover:text-msp-navy group-hover:bg-msp-navy/10 transition">
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </div>
                 </div>
-                <a href="{{ route('admin.team-members.index') }}" class="text-[11px] text-msp-gray-light hover:text-msp-gold transition opacity-0 group-hover:opacity-100">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="font-hanken font-bold text-[32px] text-[#191C1E] leading-none tracking-tight">{{ $totalTim }}</div>
+                <div class="font-hanken font-semibold text-[12px] text-msp-gray uppercase tracking-wider mt-2">Anggota Tim</div>
             </div>
-            <div class="font-hanken font-bold text-[28px] text-[#191C1E] leading-none">{{ $totalTim }}</div>
-            <div class="font-hanken font-medium text-[12px] text-msp-gray-light uppercase tracking-wide mt-1.5">Anggota Tim</div>
-        </div>
+        </a>
     </div>
 
     {{-- Main content grid --}}
@@ -121,7 +145,7 @@
                                 <td class="px-5 py-3.5">
                                     <div class="w-11 h-11 rounded-lg bg-msp-light overflow-hidden shrink-0">
                                         @if($news->thumbnail)
-                                            <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="" class="w-full h-full object-cover">
+                                            <img src="{{ $news->thumbnail_url }}" alt="" class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center">
                                                 <i class="fas fa-image text-[#7686AC] text-sm"></i>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Login — PT MSP</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ $footerContent['company_logo']->value ?? null ? asset('images/' . $footerContent['company_logo']->value) : asset('images/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
         <div class="px-10 pt-12">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
-                    <img src="{{ asset('images/logo.png') }}" alt="PT MSP" class="w-7 h-7 object-contain">
+                    <img src="{{ $footerContent['company_logo']->value ?? null ? asset('images/' . $footerContent['company_logo']->value) : asset('images/logo.png') }}" alt="PT MSP" class="w-7 h-7 object-contain">
                 </div>
                 <div>
                     <div class="font-space font-bold text-[18px] text-white leading-tight">PT MSP</div>
@@ -69,7 +69,7 @@
 
         {{-- Mobile: logo --}}
         <div class="flex items-center gap-3 mb-10 lg:hidden">
-            <img src="{{ asset('images/logo.png') }}" alt="PT MSP" class="h-10 w-auto">
+            <img src="{{ $footerContent['company_logo']->value ?? null ? asset('images/' . $footerContent['company_logo']->value) : asset('images/logo.png') }}" alt="PT MSP" class="h-10 w-auto">
             <span class="font-space font-bold text-[20px] text-msp-navy">PT MSP</span>
         </div>
 

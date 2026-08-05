@@ -33,7 +33,7 @@ class TeamMemberController extends Controller
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $filename = time() . '_photo.' . $file->getClientOriginalExtension();
+            $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
             $file->move(public_path('images'), $filename);
             $validated['photo'] = $filename;
         } else {
@@ -61,7 +61,7 @@ class TeamMemberController extends Controller
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $filename = time() . '_photo.' . $file->getClientOriginalExtension();
+            $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
             $file->move(public_path('images'), $filename);
             $validated['photo'] = $filename;
         } else {

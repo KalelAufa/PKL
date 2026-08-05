@@ -18,28 +18,37 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+    const mobilePanel = document.getElementById('mobile-panel');
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileCloseBtn = document.getElementById('mobile-menu-close');
+    const iconBars = document.getElementById('icon-bars');
+    const iconClose = document.getElementById('icon-close');
 
     function openMobileMenu() {
-        mobileMenu.classList.remove('translate-x-full');
+        mobileMenu.classList.remove('invisible');
+        mobilePanel.classList.remove('translate-x-full');
+        mobileOverlay.classList.remove('opacity-0');
+        document.body.classList.add('overflow-hidden');
         menuBtn.setAttribute('aria-expanded', 'true');
         menuBtn.setAttribute('aria-label', 'Tutup menu');
-        const icon = menuBtn.querySelector('.menu-icon');
-        if (icon) { icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark'); }
+        if (iconBars) iconBars.classList.add('hidden');
+        if (iconClose) iconClose.classList.remove('hidden');
     }
 
     function closeMobileMenu() {
-        mobileMenu.classList.add('translate-x-full');
+        mobilePanel.classList.add('translate-x-full');
+        mobileOverlay.classList.add('opacity-0');
+        document.body.classList.remove('overflow-hidden');
         menuBtn.setAttribute('aria-expanded', 'false');
         menuBtn.setAttribute('aria-label', 'Buka menu');
-        const icon = menuBtn.querySelector('.menu-icon');
-        if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
+        if (iconBars) iconBars.classList.remove('hidden');
+        if (iconClose) iconClose.classList.add('hidden');
+        setTimeout(() => mobileMenu.classList.add('invisible'), 300);
     }
 
     if (menuBtn && mobileMenu) {
         menuBtn.addEventListener('click', function () {
-            const isOpen = !mobileMenu.classList.contains('translate-x-full');
+            const isOpen = !mobileMenu.classList.contains('invisible');
             isOpen ? closeMobileMenu() : openMobileMenu();
         });
 

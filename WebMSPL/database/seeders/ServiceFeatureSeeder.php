@@ -58,12 +58,18 @@ class ServiceFeatureSeeder extends Seeder
                 ['title' => 'Dokumen Lengkap', 'description' => 'Pengurusan dokumen secara menyeluruh dan sesuai regulasi', 'order' => 2],
                 ['title' => 'Pendampingan Penuh', 'description' => 'Didampingi dari awal hingga dokumen terbit', 'order' => 3],
                 ['title' => 'Update Regulasi', 'description' => 'Informasi terkini tentang perubahan regulasi lingkungan', 'order' => 4],
+                ['title' => 'AMDAL', 'description' => 'Analisis Mengenai Dampak Lingkungan untuk usaha atau kegiatan yang berdampak penting terhadap lingkungan.', 'order' => 10, 'group' => 'layanan_spesifik'],
+                ['title' => 'UKL-UPL', 'description' => 'Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan untuk kegiatan yang tidak berdampak penting.', 'order' => 11, 'group' => 'layanan_spesifik'],
+                ['title' => 'SPPL', 'description' => 'Surat Pernyataan Kesanggupan Pengelolaan dan Pemantauan Lingkungan Hidup.', 'order' => 12, 'group' => 'layanan_spesifik'],
+                ['title' => 'Audit Lingkungan', 'description' => 'Evaluasi berkala terhadap kinerja pengelolaan lingkungan hidup perusahaan.', 'order' => 13, 'group' => 'layanan_spesifik'],
             ],
             'pest-control' => [
                 ['title' => 'Bahan Aman', 'description' => 'Menggunakan pestisida yang aman bagi manusia dan hewan', 'order' => 1],
                 ['title' => 'Metode Efektif', 'description' => 'Teknik pengendalian hama yang terbukti efektif', 'order' => 2],
                 ['title' => 'Garansi Layanan', 'description' => 'Jaminan layanan ulang jika hama masih muncul', 'order' => 3],
                 ['title' => 'Jadwal Fleksibel', 'description' => 'Penjadwalan perawatan yang dapat disesuaikan', 'order' => 4],
+                ['title' => 'Solusi Komersial & Industri', 'description' => 'Layanan khusus untuk perkantoran, pabrik, pergudangan, dan fasilitas makanan/minuman yang membutuhkan standar kepatuhan tinggi (HACCP, ISO).', 'order' => 10, 'group' => 'layanan_spesifik', 'bullets' => ['Inspeksi & Audit berkala', 'Pengendalian Rodent (Tikus)', 'Manajemen Serangga Terbang & Merayap']],
+                ['title' => 'Solusi Residensial & Real Estate', 'description' => 'Perlindungan menyeluruh untuk perumahan, apartemen, dan kawasan pemukiman untuk menjaga kenyamanan dan kesehatan penghuni.', 'order' => 11, 'group' => 'layanan_spesifik', 'bullets' => ['Termite Control (Anti Rayap)', 'General Pest Control', 'Fumigasi Terarah']],
             ],
         ];
 
@@ -72,7 +78,10 @@ class ServiceFeatureSeeder extends Seeder
             if (!$service) continue;
 
             foreach ($items as $item) {
-                ServiceFeature::create(array_merge($item, ['service_id' => $service->id]));
+                ServiceFeature::firstOrCreate(
+                    ['service_id' => $service->id, 'title' => $item['title']],
+                    array_merge($item, ['service_id' => $service->id])
+                );
             }
         }
     }

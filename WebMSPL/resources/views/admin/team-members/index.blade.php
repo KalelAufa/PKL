@@ -16,13 +16,6 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-5 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-inter">
-            <i class="fas fa-check-circle text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     @if($teamMembers->isEmpty())
         <div class="py-20 text-center bg-white rounded-2xl border border-msp-border">
             <div class="w-16 h-16 rounded-2xl bg-msp-bg-alt flex items-center justify-center mx-auto mb-4">

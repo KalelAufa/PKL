@@ -17,13 +17,6 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-5 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-inter">
-            <i class="fas fa-check-circle text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     {{-- Table card --}}
     <div class="bg-white rounded-2xl border border-msp-border overflow-hidden shadow-[0_1px_4px_rgba(11,30,62,0.04)]">
 
@@ -80,7 +73,7 @@
                             <td class="px-5 py-4">
                                 <div class="w-12 h-12 rounded-xl bg-msp-light overflow-hidden shrink-0">
                                     @if($item->thumbnail)
-                                        <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="" class="w-full h-full object-cover">
+                                        <img src="{{ $item->thumbnail_url }}" alt="" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center">
                                             <i class="fas fa-image text-[#7686AC] text-sm"></i>

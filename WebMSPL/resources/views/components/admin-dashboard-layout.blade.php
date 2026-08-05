@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — PT MSP Admin</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    @php $faviconLogo = \App\Models\PageContent::where('page', 'company')->where('key', 'company_logo')->value('value'); @endphp
+    <link rel="icon" type="image/png" href="{{ $faviconLogo ? asset('images/' . $faviconLogo) : asset('images/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +17,15 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="font-inter antialiased bg-msp-bg" x-data="{ sidebarOpen: false }">
+<body class="font-inter antialiased bg-msp-bg" x-data="{
+    sidebarOpen: false,
+    toasts: [],
+    toast(msg, type = 'success') {
+        const id = Date.now();
+        this.toasts.push({ id, msg, type });
+        setTimeout(() => this.toasts = this.toasts.filter(t => t.id !== id), 4000);
+    }
+}" @toast.window="toast($event.detail.msg, $event.detail.type ?? 'success')">
 
 @php
     $unreadCount = \App\Models\ContactMessage::where('is_read', false)->count();
@@ -133,8 +142,8 @@
         {{-- Sidebar footer --}}
         <div class="px-4 py-3.5 border-t border-white/5 bg-black/10">
             <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded-full bg-msp-gold/20 flex items-center justify-center shrink-0">
-                    <i class="fas fa-user-circle text-msp-gold text-[13px]"></i>
+                <div class="w-7 h-7 rounded-full bg-msp-gold/20 border border-msp-gold/30 flex items-center justify-center shrink-0">
+                    <span class="font-hanken font-bold text-[11px] text-msp-gold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="font-hanken font-semibold text-[12px] text-white/80 truncate">{{ Auth::user()->name }}</div>
@@ -221,7 +230,51 @@
     </div>
 </div>
 
+{{-- ── TOAST NOTIFICATIONS ── --}}
+<div class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2 pointer-events-none" aria-live="polite">
+    <template x-for="t in toasts" :key="t.id">
+        <div x-show="true"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0 translate-y-1"
+             class="pointer-events-auto flex items-center gap-3 pl-4 pr-3 py-3 rounded-2xl shadow-xl border min-w-[260px] max-w-[340px]"
+             :class="{
+                 'bg-white border-green-200': t.type === 'success',
+                 'bg-white border-red-200':   t.type === 'error',
+                 'bg-white border-amber-200': t.type === 'warning',
+             }">
+            <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0"
+                 :class="{
+                     'bg-green-100': t.type === 'success',
+                     'bg-red-100':   t.type === 'error',
+                     'bg-amber-100': t.type === 'warning',
+                 }">
+                <i class="text-[12px]"
+                   :class="{
+                       'fas fa-check text-green-600':       t.type === 'success',
+                       'fas fa-exclamation text-red-500':   t.type === 'error',
+                       'fas fa-triangle-exclamation text-amber-500': t.type === 'warning',
+                   }"></i>
+            </div>
+            <span class="font-inter text-[13px] text-[#191C1E] flex-1 leading-snug" x-text="t.msg"></span>
+            <button @click="toasts = toasts.filter(x => x.id !== t.id)"
+                    class="w-5 h-5 flex items-center justify-center text-msp-gray-light hover:text-msp-navy transition rounded-lg shrink-0">
+                <i class="fas fa-times text-[10px]"></i>
+            </button>
+        </div>
+    </template>
+</div>
+
 @vite(['resources/js/app.js'])
 @stack('scripts')
+@if(session('success'))
+<script>document.addEventListener('alpine:init', () => { setTimeout(() => window.dispatchEvent(new CustomEvent('toast', { detail: { msg: {{ json_encode(session('success')) }}, type: 'success' } })), 50); });</script>
+@endif
+@if(session('error'))
+<script>document.addEventListener('alpine:init', () => { setTimeout(() => window.dispatchEvent(new CustomEvent('toast', { detail: { msg: {{ json_encode(session('error')) }}, type: 'error' } })), 50); });</script>
+@endif
 </body>
 </html>

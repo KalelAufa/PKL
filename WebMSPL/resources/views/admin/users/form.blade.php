@@ -1,7 +1,10 @@
 @section('title', isset($user) ? 'Edit Pengguna' : 'Tambah Pengguna')
 
 <x-admin-dashboard-layout>
-@php $isEdit = isset($user); @endphp
+@php
+    $isEdit = isset($user);
+    $isSuperadmin = $isEdit && $user->id === 1;
+@endphp
 <div class="max-w-[600px]">
 
     <div class="flex items-center gap-3 mb-6">
@@ -28,6 +31,14 @@
                 @if ($isEdit) @method('PUT') @endif
 
                 <div class="space-y-5">
+                    @if($isSuperadmin)
+                    <div class="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                        <i class="fas fa-shield-alt text-amber-500 text-sm shrink-0"></i>
+                        <p class="font-inter text-[13px] text-amber-700">Akun superadmin — hanya password yang dapat diubah.</p>
+                    </div>
+                    @endif
+
+                    @if(!$isSuperadmin)
                     <div>
                         <label for="user-name" class="block font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider mb-2">
                             Nama Lengkap <span class="text-msp-danger">*</span>
@@ -57,6 +68,7 @@
                             </p>
                         @enderror
                     </div>
+                    @endif
 
                     <div>
                         <label for="user-password" class="block font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider mb-2">
@@ -86,6 +98,18 @@
                     </div>
 
                     <div>
+                        <label for="user-password-confirm" class="block font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider mb-2">
+                            Konfirmasi Password
+                            @if(!$isEdit) <span class="text-msp-danger">*</span> @endif
+                        </label>
+                        <input id="user-password-confirm" type="password" name="password_confirmation"
+                               {{ $isEdit ? '' : 'required' }}
+                               class="w-full h-11 px-4 bg-msp-bg rounded-xl font-inter text-[14px] text-[#191C1E] placeholder:text-msp-gray-light border border-msp-border focus:border-msp-gold focus:ring-2 focus:ring-msp-gold/20 focus:outline-none transition"
+                               placeholder="{{ $isEdit ? 'Biarkan kosong jika tidak diubah' : 'Ulangi password' }}">
+                    </div>
+
+                    @if(!$isSuperadmin)
+                    <div>
                         <label for="user-role" class="block font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider mb-2">
                             Role <span class="text-msp-danger">*</span>
                         </label>
@@ -101,6 +125,7 @@
                             </p>
                         @enderror
                     </div>
+                    @endif
 
                     <div class="flex items-center gap-3 pt-3 border-t border-msp-border">
                         <button type="submit" :disabled="submitting"

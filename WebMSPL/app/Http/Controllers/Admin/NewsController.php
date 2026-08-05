@@ -88,6 +88,9 @@ class NewsController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
+            if ($news->thumbnail) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($news->thumbnail);
+            }
             $validated['thumbnail'] = $request->file('thumbnail')->store('news', 'public');
         }
 

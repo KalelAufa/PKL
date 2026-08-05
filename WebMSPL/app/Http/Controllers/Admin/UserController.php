@@ -33,6 +33,10 @@ class UserController extends Controller
             'role' => ['required', Rule::in(['admin', 'editor', 'user'])],
         ]);
 
+        if ($validated['role'] === 'admin' && auth()->user()->role !== 'admin') {
+            abort(403, 'Hanya admin yang dapat membuat pengguna dengan peran admin.');
+        }
+
         $validated['password'] = Hash::make($validated['password']);
 
         User::create($validated);
@@ -47,17 +51,36 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        $isSuperadmin = $user->id === 1;
+        $isSelf = $user->id === auth()->id();
+
+        // Superadmin: hanya bisa update password diri sendiri
+        if ($isSuperadmin && !$isSelf) {
+            abort(403, 'Akun superadmin hanya dapat diubah oleh superadmin sendiri.');
+        }
+
+        $rules = [
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => ['required', Rule::in(['admin', 'editor', 'user'])],
-        ]);
+        ];
+
+        if (!$isSuperadmin) {
+            $rules['name'] = 'required|string|max:255';
+            $rules['email'] = 'required|email|max:255|unique:users,email,' . $user->id;
+            $rules['role'] = ['required', Rule::in(['admin', 'editor', 'user'])];
+        }
+
+        $validated = $request->validate($rules);
 
         if ($validated['password'] ?? null) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        if (!$isSuperadmin) {
+            if ($validated['role'] === 'admin' && auth()->user()->role !== 'admin') {
+                abort(403, 'Hanya admin yang dapat menetapkan peran admin.');
+            }
         }
 
         $user->update($validated);
@@ -67,6 +90,10 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->id === 1) {
+            return redirect()->route('admin.users.index')->with('error', 'Akun superadmin tidak dapat dihapus.');
+        }
+
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri.');
         }

@@ -12,13 +12,6 @@
             </div>
         </div>
 
-        @if (session('success'))
-            <div class="mb-5 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-inter">
-                <i class="fas fa-check-circle text-green-500"></i>
-                {{ session('success') }}
-            </div>
-        @endif
-
         {{-- Filter tabs --}}
         <div class="flex items-center gap-1.5 mb-5 bg-white border border-msp-border rounded-xl p-1 w-fit">
             <a href="{{ route('admin.messages.index') }}"
@@ -30,9 +23,8 @@
                class="h-8 px-4 rounded-lg font-inter font-medium text-[13px] transition inline-flex items-center gap-2
                 {{ $filter === 'unread' ? 'bg-msp-gold text-[#071B3B] shadow-sm' : 'text-msp-gray hover:bg-msp-bg-alt' }}">
                 Belum Dibaca
-                @php $unread = $messages->where('is_read', false)->count(); @endphp
-                @if($unread > 0)
-                    <span class="w-5 h-5 rounded-full {{ $filter === 'unread' ? 'bg-[#071B3B]/20' : 'bg-msp-gold text-[#071B3B]' }} text-[10px] font-bold flex items-center justify-center">{{ $unread }}</span>
+                @if($unreadCount > 0)
+                    <span class="w-5 h-5 rounded-full {{ $filter === 'unread' ? 'bg-[#071B3B]/20' : 'bg-msp-gold text-[#071B3B]' }} text-[10px] font-bold flex items-center justify-center">{{ $unreadCount }}</span>
                 @endif
             </a>
             <a href="{{ route('admin.messages.index', ['filter' => 'read']) }}"
@@ -44,7 +36,8 @@
 
         {{-- Table --}}
         <div class="bg-white rounded-2xl border border-msp-border overflow-hidden shadow-[0_1px_4px_rgba(11,30,62,0.04)]">
-            <table class="w-full">
+            <div class="overflow-x-auto">
+            <table class="w-full min-w-[520px]">
                 <caption class="sr-only">Daftar pesan masuk</caption>
                 <thead>
                     <tr class="border-b border-msp-border bg-msp-bg/60">
@@ -59,6 +52,7 @@
                 <tbody>
                     @forelse ($messages as $message)
                         <tr class="border-b border-msp-border hover:bg-msp-bg/50 transition cursor-pointer {{ !$message->is_read ? 'bg-msp-gold/3' : '' }}"
+                            data-id="{{ $message->id }}"
                             @click="openDetail({{ $message->id }})"
                             tabindex="0" @keydown.enter="openDetail({{ $message->id }})"
                             role="button" aria-label="Buka pesan dari {{ $message->name }}">
@@ -68,13 +62,13 @@
                                         {{ strtoupper(substr($message->name, 0, 1)) }}
                                     </div>
                                     <div>
-                                        <div class="font-inter text-[14px] text-[#191C1E] {{ !$message->is_read ? 'font-bold' : 'font-medium' }}">
+                                        <div data-name class="font-inter text-[14px] text-[#191C1E] {{ !$message->is_read ? 'font-bold' : 'font-medium' }}">
                                             {{ $message->name }}
                                         </div>
                                         <div class="font-inter text-[11px] text-msp-gray-light">{{ $message->email }}</div>
                                     </div>
                                     @if(!$message->is_read)
-                                        <span class="ml-1 w-2 h-2 rounded-full bg-msp-gold shrink-0"></span>
+                                        <span data-unread-dot class="ml-1 w-2 h-2 rounded-full bg-msp-gold shrink-0"></span>
                                     @endif
                                 </div>
                             </td>
@@ -86,11 +80,11 @@
                             </td>
                             <td class="px-5 py-4">
                                 @if ($message->is_read)
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-inter font-semibold bg-green-50 text-green-700 border border-green-200">
+                                    <span data-status-badge class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-inter font-semibold bg-green-50 text-green-700 border border-green-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Dibaca
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-inter font-semibold bg-msp-gold/10 text-msp-gold border border-msp-gold/20">
+                                    <span data-status-badge class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-inter font-semibold bg-msp-gold/10 text-msp-gold border border-msp-gold/20">
                                         <span class="w-1.5 h-1.5 rounded-full bg-msp-gold"></span> Baru
                                     </span>
                                 @endif
@@ -142,17 +136,31 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <x-admin-pagination :paginator="$messages" />
     </div>
 
-    {{-- ============ RIGHT: Detail panel ============ --}}
+    {{-- ============ RIGHT: Detail panel (sidebar xl+, modal <xl) ============ --}}
+    {{-- Backdrop for mobile/tablet modal --}}
+    <div x-show="selectedId !== null" x-cloak @click="closeDetail()"
+         class="fixed inset-0 bg-black/40 z-40 xl:hidden"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"></div>
+
     <div x-show="selectedId !== null" x-cloak
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 translate-x-4"
          x-transition:enter-end="opacity-100 translate-x-0"
-         class="w-[400px] shrink-0 hidden xl:block">
+         class="xl:w-[400px] xl:shrink-0
+                fixed xl:relative inset-y-0 right-0 z-50 xl:z-auto
+                w-[min(400px,calc(100vw-48px))]
+                xl:block xl:translate-x-0">
         <div class="bg-white border border-msp-border rounded-2xl overflow-hidden sticky top-6 shadow-[0_4px_24px_rgba(11,30,62,0.08)]">
             @foreach ($messages as $message)
                 <div x-show="selectedId === {{ $message->id }}">
@@ -234,30 +242,59 @@
                     </div>
 
                     {{-- Footer actions --}}
-                    <div class="px-5 py-4 border-t border-msp-border" x-data="{ confirmDelete: false }">
-                        <div x-show="!confirmDelete">
+                    <div class="px-5 py-4 border-t border-msp-border" x-data="{
+                        confirmDelete: false, showReply: false, replyBody: '',
+                        replySending: false, replyDone: false, replyError: '',
+                        async sendReply() {
+                            if (!this.replyBody.trim()) return;
+                            this.replySending = true; this.replyError = '';
+                            try {
+                                const r = await fetch('{{ route('admin.messages.reply', $message) }}', {
+                                    method: 'POST',
+                                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                    body: JSON.stringify({ reply_body: this.replyBody })
+                                });
+                                const d = await r.json();
+                                if (d.success) { this.replyDone = true; this.replyBody = ''; setTimeout(() => { this.showReply = false; this.replyDone = false; }, 2000); }
+                                else { this.replyError = d.message || 'Gagal mengirim.'; }
+                            } catch { this.replyError = 'Gagal mengirim. Periksa koneksi.'; }
+                            this.replySending = false;
+                        }
+                    }">
+
+                        {{-- Reply form --}}
+                        <div x-show="showReply" x-cloak class="mb-3">
+                            <p class="font-hanken font-bold text-[12px] text-msp-gray-light uppercase tracking-wider mb-2">Tulis Balasan</p>
+                            <textarea x-model="replyBody" rows="5"
+                                      class="w-full rounded-xl border border-msp-border bg-msp-bg font-inter text-[13px] text-[#191C1E] p-3 resize-none focus:outline-none focus:border-msp-navy transition placeholder:text-msp-gray-light"
+                                      placeholder="Tulis pesan balasan Anda di sini..."></textarea>
+                            <div x-show="replyError" x-cloak class="mt-1.5 text-[11px] text-msp-danger font-inter" x-text="replyError"></div>
+                            <div x-show="replyDone" x-cloak class="mt-1.5 text-[11px] text-green-600 font-inter font-semibold">✓ Balasan berhasil dikirim.</div>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <button @click="sendReply()" :disabled="replySending || replyBody.trim() === ''"
+                                        class="h-9 rounded-xl bg-msp-navy text-white font-inter font-semibold text-[13px] inline-flex items-center justify-center gap-1.5 hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <i class="fas fa-paper-plane text-[11px]"></i>
+                                    <span x-text="replySending ? 'Mengirim...' : 'Kirim'"></span>
+                                </button>
+                                <button @click="showReply = false; replyBody = ''; replyError = ''"
+                                        class="h-9 rounded-xl border border-msp-border text-msp-gray font-inter font-medium text-[13px] hover:bg-msp-bg-alt transition">
+                                    Batal
+                                </button>
+                            </div>
+                        </div>
+
+                        <div x-show="!confirmDelete && !showReply">
                             @php
                                 $waNum = preg_replace('/[^0-9]/', '', $message->phone ?? '');
                                 if (str_starts_with($waNum, '0')) $waNum = '62' . substr($waNum, 1);
                                 $waUrl = $message->phone ? 'https://wa.me/' . $waNum : null;
                             @endphp
-                            @php
-                                $subject = rawurlencode('Re: Inquiry dari ' . $message->name . ($message->company ? ' (' . $message->company . ')' : ''));
-                                $body = rawurlencode(
-                                    "Yth. " . $message->name . ",\n\n" .
-                                    "Terima kasih telah menghubungi PT Mentari Satya Perkasa.\n\n" .
-                                    "---\n" .
-                                    "Pesan Anda:\n" . $message->message . "\n---\n\n" .
-                                    "Hormat kami,\nTim PT Mentari Satya Perkasa"
-                                );
-                                $mailtoUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' . rawurlencode($message->email) . '&su=' . $subject . '&body=' . $body;
-                            @endphp
                             <div class="flex flex-col gap-2">
+                                <button @click="showReply = true; replyDone = false"
+                                        class="w-full h-9 rounded-xl bg-msp-navy text-white font-inter font-semibold text-[13px] inline-flex items-center justify-center gap-1.5 hover:brightness-110 transition">
+                                    <i class="fas fa-reply text-[11px]"></i> Balas via Email
+                                </button>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <a href="{{ $mailtoUrl }}" target="_blank" rel="noopener noreferrer"
-                                       class="h-9 rounded-xl font-inter font-medium text-[13px] text-msp-navy border border-msp-border bg-white inline-flex items-center justify-center gap-1.5 hover:bg-msp-bg-alt transition">
-                                        <i class="fas fa-envelope text-[11px]"></i> Email
-                                    </a>
                                     @if($waUrl)
                                     <a href="{{ $waUrl }}" target="_blank" rel="noopener noreferrer"
                                        class="h-9 rounded-xl font-inter font-medium text-[13px] text-green-700 border border-green-200 bg-green-50 inline-flex items-center justify-center gap-1.5 hover:bg-green-100 transition">
@@ -268,13 +305,14 @@
                                         <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
                                     </span>
                                     @endif
+                                    <button @click="confirmDelete = true"
+                                            class="h-9 rounded-xl font-inter font-medium text-[13px] text-msp-danger border border-msp-danger/30 bg-red-50 inline-flex items-center justify-center gap-2 hover:bg-red-100 transition">
+                                        <i class="fas fa-trash text-[11px]"></i> Hapus
+                                    </button>
                                 </div>
-                                <button @click="confirmDelete = true"
-                                        class="w-full h-9 rounded-xl font-inter font-medium text-[13px] text-msp-danger border border-msp-danger/30 bg-red-50 inline-flex items-center justify-center gap-2 hover:bg-red-100 transition">
-                                    <i class="fas fa-trash text-[11px]"></i> Hapus
-                                </button>
                             </div>
                         </div>
+
                         <div x-show="confirmDelete" x-cloak class="space-y-2">
                             <p class="font-inter text-[12px] text-msp-gray text-center">Konfirmasi hapus pesan ini?</p>
                             <div class="grid grid-cols-2 gap-2">
@@ -309,6 +347,18 @@ function messagesApp() {
             fetch('{{ url("/admin/messages") }}/' + id + '/read', {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+            }).then(r => r.json()).then(data => {
+                if (!data.success) return;
+                // Update row: remove bold + dot, swap badge
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if (!row) return;
+                row.classList.remove('bg-msp-gold/3');
+                const namEl = row.querySelector('[data-name]');
+                if (namEl) namEl.classList.replace('font-bold', 'font-medium');
+                const dot = row.querySelector('[data-unread-dot]');
+                if (dot) dot.remove();
+                const badge = row.querySelector('[data-status-badge]');
+                if (badge) badge.outerHTML = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-inter font-semibold bg-green-50 text-green-700 border border-green-200"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Dibaca</span>';
             });
         },
         closeDetail() {

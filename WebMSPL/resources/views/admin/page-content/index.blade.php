@@ -8,13 +8,6 @@
         <p class="font-inter text-[14px] text-msp-gray mt-0.5">Edit teks, gambar, dan informasi untuk setiap halaman publik website.</p>
     </div>
 
-    @if (session('success'))
-        <div class="mb-5 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-inter">
-            <i class="fas fa-check-circle text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     @php
         $pageMeta = [
             'home'     => [
@@ -56,6 +49,14 @@
                 'icon'     => 'fas fa-layer-group',
                 'color'    => 'from-slate-500 to-slate-700',
                 'iconBg'   => 'bg-slate-100 text-slate-500',
+            ],
+            'emails'   => [
+                'label'    => 'Template Email',
+                'subtitle' => 'Teks balasan pesan & email reset password',
+                'route'    => null,
+                'icon'     => 'fas fa-envelope-open-text',
+                'color'    => 'from-rose-500 to-pink-600',
+                'iconBg'   => 'bg-rose-50 text-rose-500',
             ],
         ];
     @endphp

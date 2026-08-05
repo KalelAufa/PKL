@@ -27,6 +27,7 @@ class Service extends Model
         'is_affiliate',
         'status',
         'order',
+        'category',
     ];
 
     protected function casts(): array

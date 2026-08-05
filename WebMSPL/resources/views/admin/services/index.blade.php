@@ -16,45 +16,13 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-5 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-[13px] font-inter">
-            <i class="fas fa-check-circle text-green-500"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     @php
-    $faIconMap = [
-        'handshake'         => 'fas fa-handshake',
-        'eco'               => 'fas fa-leaf',
-        'pest_control'      => 'fas fa-bug',
-        'cleaning_services' => 'fas fa-broom',
-        'security'          => 'fas fa-shield-alt',
-        'build'             => 'fas fa-tools',
-        'work'              => 'fas fa-briefcase',
-        'settings'          => 'fas fa-cog',
-        'engineering'       => 'fas fa-hard-hat',
-        'local_shipping'    => 'fas fa-truck',
-        'warehouse'         => 'fas fa-warehouse',
-        'people'            => 'fas fa-users',
-        'assignment'        => 'fas fa-clipboard-list',
-        'article'           => 'fas fa-file-alt',
-        'description'       => 'fas fa-file-alt',
-        'factory'           => 'fas fa-industry',
-        'water_drop'        => 'fas fa-tint',
-        'recycling'         => 'fas fa-recycle',
-        'forest'            => 'fas fa-tree',
-        'nature'            => 'fas fa-seedling',
-        'verified'          => 'fas fa-check-circle',
-        'business_center'   => 'fas fa-briefcase',
-        'manage_accounts'   => 'fas fa-user-cog',
-        'diversity_3'       => 'fas fa-people-arrows',
-    ];
+    // icon field now stores FA classes directly (e.g. "fas fa-users")
     @endphp
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         @forelse ($services as $service)
-            @php $faIcon = $faIconMap[$service->icon ?? ''] ?? 'fas fa-cogs'; @endphp
+            @php $faIcon = (str_starts_with($service->icon ?? '', 'fa') ? $service->icon : 'fas fa-cogs'); @endphp
             <div class="bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition-all duration-200 group flex flex-col">
 
                 {{-- Hero image --}}

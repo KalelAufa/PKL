@@ -103,7 +103,7 @@
                         </div>
                         <div id="thumbnail-preview" class="{{ (isset($news) && $news->thumbnail) ? '' : 'hidden' }} relative rounded-xl overflow-hidden">
                             <img id="thumbnail-img"
-                                 src="{{ isset($news) && $news->thumbnail ? asset('storage/' . $news->thumbnail) : '' }}"
+                                 src="{{ isset($news) && $news->thumbnail ? $news->thumbnail_url : '' }}"
                                  alt="Preview" class="w-full h-52 object-cover rounded-xl">
                             <button type="button" id="reset-thumb-btn"
                                     class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-md hover:bg-white transition">
@@ -162,6 +162,15 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        {{-- Author role --}}
+                        <div>
+                            <label for="author_role" class="block font-hanken font-bold text-[11px] text-msp-gray uppercase tracking-wider mb-2">Jabatan Penulis</label>
+                            <input id="author_role" name="author_role" type="text"
+                                   value="{{ old('author_role', $news->author_role ?? '') }}"
+                                   placeholder="cth. Redaksi MSP"
+                                   class="w-full h-10 px-3 bg-msp-bg rounded-xl font-inter text-[13px] text-[#191C1E] placeholder:text-msp-gray-light border border-msp-border focus:border-msp-gold focus:ring-2 focus:ring-msp-gold/20 focus:outline-none transition">
                         </div>
 
                         {{-- Featured toggle --}}

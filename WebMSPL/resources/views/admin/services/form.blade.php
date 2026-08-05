@@ -72,18 +72,20 @@
                         <h3 class="font-hanken font-bold text-[16px] text-msp-sidebar">Aset Media</h3>
 
                         <div>
-                            <label for="icon" class="block font-hanken font-bold text-[12px] text-[#44474E] uppercase tracking-wide mb-1.5">Ikon (Material)</label>
-                            <div class="flex gap-3">
+                            <label for="icon" class="block font-hanken font-bold text-[12px] text-[#44474E] uppercase tracking-wide mb-1.5">Ikon (Font Awesome)</label>
+                            <div class="flex gap-3 items-center">
                                 <div class="flex-1 relative">
-                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]"></i>
+                                    <i class="fas fa-icons absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280] text-sm"></i>
                                     <input id="icon" name="icon" type="text" value="{{ old('icon', $service->icon ?? '') }}"
-                                           placeholder="search"
-                                           class="w-full pl-9 pr-3 py-2.5 bg-msp-bg-alt rounded-lg text-sm text-[#191C1E] placeholder:text-[#6B7280] border-none outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                                           placeholder="fas fa-users"
+                                           oninput="updateIconPreview(this.value)"
+                                           class="w-full pl-9 pr-3 py-2.5 bg-msp-bg-alt rounded-lg text-sm text-[#191C1E] placeholder:text-[#6B7280] border-none outline-none focus:ring-2 focus:ring-msp-gold/30 transition font-mono">
                                 </div>
                                 <div class="w-10 h-10 rounded-lg bg-msp-bg-alt flex items-center justify-center shrink-0" title="Icon preview">
-                                    <span class="material-symbols-outlined text-[#44474E] text-xl">{{ old('icon', $service->icon ?? '') ?: 'shield' }}</span>
+                                    <i id="icon-preview" class="{{ old('icon', $service->icon ?? '') ?: 'fas fa-cogs' }} text-[#44474E] text-lg"></i>
                                 </div>
                             </div>
+                            <p class="mt-1 font-inter text-[11px] text-msp-gray-light">Cari di <a href="https://fontawesome.com/icons" target="_blank" class="text-msp-blue hover:underline">fontawesome.com/icons</a> · contoh: <code class="bg-msp-bg-alt px-1 rounded">fas fa-users</code></p>
                         </div>
 
                         <div>
@@ -227,11 +229,13 @@
 
                     <div class="bg-msp-card-bg rounded-xl p-6 space-y-4">
                         <div class="flex items-center justify-between">
-                            <h3 class="font-hanken font-bold text-[16px] text-msp-sidebar">Layanan Spesifik (Sub-services)</h3>
+                            <div>
+                                <h3 class="font-hanken font-bold text-[16px] text-msp-sidebar">Keunggulan & Layanan Spesifik</h3>
+                                <p class="font-inter text-[11px] text-msp-gray-light mt-0.5">Tipe "Keunggulan" tampil di blok navy. Tipe "Layanan Spesifik" tampil di cards (pest/perizinan).</p>
+                            </div>
                             <button type="button" onclick="addFeatureRow()"
-                                    class="h-8 px-4 bg-msp-gold/20 text-msp-gold font-inter font-semibold text-[12px] rounded-lg inline-flex items-center gap-1 hover:bg-msp-gold/30 transition">
-                                <i class="fas fa-plus"></i>
-Tambah
+                                    class="shrink-0 h-8 px-4 bg-msp-gold/20 text-msp-gold font-inter font-semibold text-[12px] rounded-lg inline-flex items-center gap-1 hover:bg-msp-gold/30 transition">
+                                <i class="fas fa-plus"></i> Tambah
                             </button>
                         </div>
                         <div id="features-container" class="space-y-3">
@@ -242,10 +246,15 @@ Tambah
                                         <i class="fas fa-trash text-msp-danger"></i>
                                     </button>
                                     <input type="hidden" name="features[{{ $featIdx }}][id]" value="{{ $feature->id }}">
-                                    <div class="grid grid-cols-[1fr_2fr] gap-3 pr-8">
-                                        <input name="features[{{ $featIdx }}][title]" value="{{ $feature->title }}"
-placeholder="Judul"
+                                    <div class="grid grid-cols-[120px_1fr_2fr] gap-3 pr-8">
+                                        <select name="features[{{ $featIdx }}][group]"
                                                 class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                                            <option value="" {{ empty($feature->group) ? 'selected' : '' }}>Keunggulan</option>
+                                            <option value="layanan_spesifik" {{ $feature->group === 'layanan_spesifik' ? 'selected' : '' }}>Layanan Spesifik</option>
+                                        </select>
+                                        <input name="features[{{ $featIdx }}][title]" value="{{ $feature->title }}"
+                                               placeholder="Judul"
+                                               class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
                                         <textarea name="features[{{ $featIdx }}][description]" rows="1"
                                                   placeholder="Deskripsi"
                                                   class="px-3 py-2 bg-white rounded-lg text-sm text-[#44474E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition resize-none">{{ $feature->description }}</textarea>
@@ -253,18 +262,20 @@ placeholder="Judul"
                                 </div>
                                 @php $featIdx++; @endphp
                             @empty
-                                <div class="text-center py-8 font-inter text-[14px] text-msp-gray-light">Belum ada sub-services. Klik "Tambah" untuk menambah.</div>
+                                <div class="text-center py-8 font-inter text-[14px] text-msp-gray-light">Belum ada keunggulan. Klik "Tambah" untuk menambah.</div>
                             @endforelse
                         </div>
                     </div>
 
                     <div class="bg-msp-card-bg rounded-xl p-6 space-y-4">
                         <div class="flex items-center justify-between">
-                            <h3 class="font-hanken font-bold text-[16px] text-msp-sidebar">Metodologi (Work Process)</h3>
+                            <div>
+                                <h3 class="font-hanken font-bold text-[16px] text-msp-sidebar">Alur Kerja</h3>
+                                <p class="font-inter text-[11px] text-msp-gray-light mt-0.5">Tampil sebagai langkah horizontal di halaman layanan.</p>
+                            </div>
                             <button type="button" onclick="addProcessStepRow()"
-                                    class="h-8 px-4 bg-msp-gold/20 text-msp-gold font-inter font-semibold text-[12px] rounded-lg inline-flex items-center gap-1 hover:bg-msp-gold/30 transition">
-                                <i class="fas fa-plus"></i>
-Tambah
+                                    class="shrink-0 h-8 px-4 bg-msp-gold/20 text-msp-gold font-inter font-semibold text-[12px] rounded-lg inline-flex items-center gap-1 hover:bg-msp-gold/30 transition">
+                                <i class="fas fa-plus"></i> Tambah
                             </button>
                         </div>
                         <div id="steps-container" class="space-y-3">
@@ -275,16 +286,22 @@ Tambah
                                         <i class="fas fa-trash text-msp-danger"></i>
                                     </button>
                                     <input type="hidden" name="process_steps[{{ $stepIdx }}][id]" value="{{ $step->id }}">
-                                    <div class="pr-8">
+                                    <div class="flex items-center gap-2 mb-2 pr-8">
+                                        <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0" style="background-color:#0B2145;">{{ $stepIdx + 1 }}</span>
+                                        <span class="font-inter text-[11px] text-msp-gray-light">Langkah {{ $stepIdx + 1 }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-[1fr_2fr] gap-3 pr-8">
                                         <input name="process_steps[{{ $stepIdx }}][title]" value="{{ $step->title }}"
-placeholder="Judul Langkah"
-                                                         class="w-full px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
-                                        <div class="text-xs text-msp-gray-light font-inter mt-1">Step {{ $stepIdx + 1 }}</div>
+                                               placeholder="Judul Langkah"
+                                               class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                                        <textarea name="process_steps[{{ $stepIdx }}][description]" rows="1"
+                                                  placeholder="Deskripsi singkat (opsional)"
+                                                  class="px-3 py-2 bg-white rounded-lg text-sm text-[#44474E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition resize-none">{{ $step->description }}</textarea>
                                     </div>
                                 </div>
                                 @php $stepIdx++; @endphp
                             @empty
-                                <div class="text-center py-8 font-inter text-[14px] text-msp-gray-light">Belum ada metodologi. Klik "Tambah" untuk menambah.</div>
+                                <div class="text-center py-8 font-inter text-[14px] text-msp-gray-light">Belum ada alur kerja. Klik "Tambah" untuk menambah.</div>
                             @endforelse
                         </div>
                     </div>
@@ -309,6 +326,16 @@ placeholder="Judul Langkah"
                                 </label>
                             </div>
                         </div>
+
+                        <div>
+                            <label for="category" class="block font-hanken font-bold text-[11px] text-[#44474E] uppercase tracking-wide mb-2">Kategori</label>
+                            <select id="category" name="category"
+                                    class="w-full px-3 py-2.5 bg-msp-bg-alt rounded-lg text-sm text-[#191C1E] border-none outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                                <option value="" {{ old('category', $service->category ?? '') === '' ? 'selected' : '' }}>Layanan Utama (tampil di /layanan)</option>
+                                <option value="outsourcing" {{ old('category', $service->category ?? '') === 'outsourcing' ? 'selected' : '' }}>Sub-Layanan Outsourcing</option>
+                            </select>
+                            <p class="mt-1 font-inter text-[11px] text-msp-gray-light">"Layanan Utama" muncul di halaman Layanan. "Sub-Layanan" hanya muncul di dalam halaman Outsourcing.</p>
+                        </div>
                     </div>
 
                     <div class="flex flex-col gap-3">
@@ -328,7 +355,6 @@ placeholder="Judul Langkah"
 
     @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     @endpush
 
     @push('scripts')
@@ -384,11 +410,16 @@ placeholder="Judul Langkah"
                 <button type="button" onclick="this.closest('.feature-row').remove()" class="absolute top-3 right-3 text-msp-gray-light hover:text-msp-danger transition">
                     <i class="fas fa-trash text-msp-danger"></i>
                 </button>
-                <div class="grid grid-cols-[1fr_2fr] gap-3 pr-8">
-        <input name="features[${featureIdx}][title]" placeholder="Judul"
-                               class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
-                       <textarea name="features[${featureIdx}][description]" rows="1" placeholder="Deskripsi"
-                              class="px-3 py-2 bg-white rounded-lg text-sm text-[#44474E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition resize-none"></textarea>
+                <div class="grid grid-cols-[120px_1fr_2fr] gap-3 pr-8">
+                    <select name="features[${featureIdx}][group]"
+                            class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                        <option value="">Keunggulan</option>
+                        <option value="layanan_spesifik">Layanan Spesifik</option>
+                    </select>
+                    <input name="features[${featureIdx}][title]" placeholder="Judul"
+                           class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                    <textarea name="features[${featureIdx}][description]" rows="1" placeholder="Deskripsi"
+                              class="px-3 py-2 bg-white rounded-lg text-sm text-msp-gray border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition resize-none"></textarea>
                 </div>
             </div>`;
         container.insertAdjacentHTML('beforeend', html);
@@ -400,15 +431,21 @@ placeholder="Judul Langkah"
         const empty = container.querySelector('.text-center.py-8');
         if (empty) empty.remove();
 
+        const num = stepIdx + 1;
         const html = `
             <div class="step-row bg-[#F8F9FB] rounded-xl p-4 relative">
                 <button type="button" onclick="this.closest('.step-row').remove()" class="absolute top-3 right-3 text-msp-gray-light hover:text-msp-danger transition">
                     <i class="fas fa-trash text-msp-danger"></i>
                 </button>
-                <div class="pr-8">
+                <div class="flex items-center gap-2 mb-2 pr-8">
+                    <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0" style="background-color:#0B2145;">${num}</span>
+                    <span class="font-inter text-[11px] text-msp-gray-light">Langkah ${num}</span>
+                </div>
+                <div class="grid grid-cols-[1fr_2fr] gap-3 pr-8">
                     <input name="process_steps[${stepIdx}][title]" placeholder="Judul Langkah"
-                           class="w-full px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
-                    <div class="text-xs text-msp-gray-light font-inter mt-1">Langkah ${stepIdx + 1}</div>
+                           class="px-3 py-2 bg-white rounded-lg text-sm text-[#191C1E] border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition">
+                    <textarea name="process_steps[${stepIdx}][description]" rows="1" placeholder="Deskripsi singkat (opsional)"
+                              class="px-3 py-2 bg-white rounded-lg text-sm text-msp-gray border border-msp-border outline-none focus:ring-2 focus:ring-msp-gold/30 transition resize-none"></textarea>
                 </div>
             </div>`;
         container.insertAdjacentHTML('beforeend', html);
@@ -435,6 +472,12 @@ placeholder="Judul Langkah"
         document.getElementById(prefix + '-preview')?.classList.add('hidden');
         const fileEl = document.getElementById(prefix + '-file');
         if (fileEl) fileEl.classList.add('hidden');
+    }
+
+    function updateIconPreview(value) {
+        const el = document.getElementById('icon-preview');
+        if (!el) return;
+        el.className = (value.trim() || 'fas fa-cogs') + ' text-[#44474E] text-lg';
     }
 
     function previewBrochure(input) {

@@ -36,6 +36,18 @@ class News extends Model
         ];
     }
 
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        if (! $this->thumbnail) {
+            return null;
+        }
+
+        // Legacy seed thumbnails are bare filenames stored in public/images/
+        return str_contains($this->thumbnail, '/')
+            ? asset('storage/' . $this->thumbnail)
+            : asset('images/' . $this->thumbnail);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

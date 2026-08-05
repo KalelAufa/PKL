@@ -14,7 +14,16 @@ class ServiceFeature extends Model
         'title',
         'description',
         'order',
+        'group',
+        'bullets',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'bullets' => 'array',
+        ];
+    }
 
     public function service(): BelongsTo
     {

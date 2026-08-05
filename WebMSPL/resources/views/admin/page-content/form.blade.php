@@ -14,7 +14,7 @@ $sectionDefs = [
         'icon'  => 'fas fa-image',
         'color' => 'text-msp-blue',
         'bg'    => 'bg-msp-blue/10',
-        'keys'  => ['hero_title', 'hero_subtitle', 'hero_image'],
+        'keys'  => ['hero_title', 'hero_subtitle', 'hero_image', 'hero_badge', 'hero_cta'],
     ],
     'stats' => [
         'label' => 'Statistik',
@@ -42,7 +42,7 @@ $sectionDefs = [
         'icon'  => 'fas fa-lightbulb',
         'color' => 'text-orange-500',
         'bg'    => 'bg-orange-50',
-        'keys'  => ['innovation_title','innovation_body_1','innovation_body_2'],
+        'keys'  => ['innovation_title','innovation_body_1','innovation_body_2','innovation_image_1','innovation_image_2'],
     ],
     'services_grid' => [
         'label' => 'Grid Layanan',
@@ -51,12 +51,26 @@ $sectionDefs = [
         'bg'    => 'bg-indigo-50',
         'keys'  => ['services_grid_title','services_grid_subtitle'],
     ],
+    'contact_info' => [
+        'label' => 'Info Kontak',
+        'icon'  => 'fas fa-address-card',
+        'color' => 'text-rose-600',
+        'bg'    => 'bg-rose-50',
+        'keys'  => ['contact_info_title','contact_info_subtitle','phone','email','address','office_hours'],
+    ],
     'map_section' => [
         'label' => 'Peta Lokasi',
         'icon'  => 'fas fa-map-marked-alt',
         'color' => 'text-teal-600',
         'bg'    => 'bg-teal-50',
-        'keys'  => ['map_embed_url'],
+        'keys'  => ['map_title','map_embed_url'],
+    ],
+    'newsletter_section' => [
+        'label' => 'Seksi Newsletter',
+        'icon'  => 'fas fa-envelope-open-text',
+        'color' => 'text-sky-600',
+        'bg'    => 'bg-sky-50',
+        'keys'  => ['newsletter_title','newsletter_subtitle'],
     ],
     'story' => [
         'label' => 'Cerita Perusahaan',
@@ -84,14 +98,42 @@ $sectionDefs = [
         'icon'  => 'fas fa-bullhorn',
         'color' => 'text-msp-gold',
         'bg'    => 'bg-msp-gold/10',
-        'keys'  => ['cta_title','cta_subtitle'],
+        'keys'  => ['cta_title','cta_subtitle','cta_button_primary','cta_button_secondary'],
     ],
     'quality_section' => [
-        'label' => 'Kualitas & CTA',
+        'label' => 'Kualitas & Layanan',
         'icon'  => 'fas fa-medal',
         'color' => 'text-green-600',
         'bg'    => 'bg-green-50',
         'keys'  => ['main_services_title','quality_image','quality_title','quality_body'],
+    ],
+    'sister_section' => [
+        'label' => 'Seksi Afiliasi',
+        'icon'  => 'fas fa-handshake',
+        'color' => 'text-indigo-500',
+        'bg'    => 'bg-indigo-50',
+        'keys'  => ['sister_badge','sister_title','sister_description','sister_url','sister_cta_label'],
+    ],
+    'footer_section' => [
+        'label' => 'Footer',
+        'icon'  => 'fas fa-layer-group',
+        'color' => 'text-slate-600',
+        'bg'    => 'bg-slate-100',
+        'keys'  => ['footer_company_name','company_description','social_linkedin','social_facebook','social_instagram','social_x'],
+    ],
+    'email_reply' => [
+        'label' => 'Template Balasan',
+        'icon'  => 'fas fa-reply',
+        'color' => 'text-rose-600',
+        'bg'    => 'bg-rose-50',
+        'keys'  => ['reply_eyebrow','reply_hero_title','reply_hero_subtitle','reply_greeting','reply_intro'],
+    ],
+    'email_reset' => [
+        'label' => 'Template Reset Password',
+        'icon'  => 'fas fa-key',
+        'color' => 'text-amber-600',
+        'bg'    => 'bg-amber-50',
+        'keys'  => ['reset_eyebrow','reset_hero_title','reset_hero_subtitle','reset_expiry','reset_button','reset_security'],
     ],
 ];
 
@@ -112,7 +154,8 @@ $grouped = array_filter($grouped);
 $textareaKeys = [
     'hero_subtitle','about_description','company_description','description','story','address',
     'innovation_title','innovation_body_1','innovation_body_2',
-    'quality_body','cta_subtitle','team_section_subtitle','map_embed_url',
+    'quality_body','cta_subtitle','cta_subtitle','team_section_subtitle','map_embed_url',
+    'contact_info_subtitle','sister_description','newsletter_subtitle',
 ];
 $firstSection = array_key_first($grouped) ?? 'hero';
 @endphp
@@ -255,6 +298,8 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                             $heroImg   = collect($sectionContents)->firstWhere('key', 'hero_image');
                             $heroTitle = collect($sectionContents)->firstWhere('key', 'hero_title');
                             $heroSub   = collect($sectionContents)->firstWhere('key', 'hero_subtitle');
+                            $heroBadge = collect($sectionContents)->firstWhere('key', 'hero_badge');
+                            $heroCta   = collect($sectionContents)->firstWhere('key', 'hero_cta');
                         @endphp
 
                         <div class="space-y-4 max-w-[760px]">
@@ -342,6 +387,44 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                                     </div>
                                 @endif
                             </div>
+
+                            {{-- Badge + CTA row (optional fields) --}}
+                            @if($heroBadge || $heroCta)
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                @if($heroBadge)
+                                    @php $idx = $globalIndex++; @endphp
+                                    <input type="hidden" name="contents[{{ $idx }}][id]" value="{{ $heroBadge->id }}">
+                                    <div class="bg-white rounded-2xl border border-msp-border p-5 shadow-sm">
+                                        <label for="field_{{ $heroBadge->id }}" class="flex items-center gap-2 mb-3">
+                                            <i class="fas fa-tag text-msp-blue text-[12px]"></i>
+                                            <span class="font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider">Badge / Eyebrow</span>
+                                        </label>
+                                        <input id="field_{{ $heroBadge->id }}"
+                                               name="contents[{{ $idx }}][value]"
+                                               type="text"
+                                               value="{{ old('contents.'.$idx.'.value', $heroBadge->value) }}"
+                                               class="w-full h-11 px-4 bg-msp-bg rounded-xl font-inter text-[14px] text-[#191C1E] border border-msp-border focus:border-msp-gold focus:ring-2 focus:ring-msp-gold/20 focus:outline-none transition"
+                                               placeholder="Teks badge kecil di atas judul...">
+                                    </div>
+                                @endif
+                                @if($heroCta)
+                                    @php $idx = $globalIndex++; @endphp
+                                    <input type="hidden" name="contents[{{ $idx }}][id]" value="{{ $heroCta->id }}">
+                                    <div class="bg-white rounded-2xl border border-msp-border p-5 shadow-sm">
+                                        <label for="field_{{ $heroCta->id }}" class="flex items-center gap-2 mb-3">
+                                            <i class="fas fa-mouse-pointer text-msp-blue text-[12px]"></i>
+                                            <span class="font-hanken font-bold text-[12px] text-msp-gray uppercase tracking-wider">Teks Tombol CTA</span>
+                                        </label>
+                                        <input id="field_{{ $heroCta->id }}"
+                                               name="contents[{{ $idx }}][value]"
+                                               type="text"
+                                               value="{{ old('contents.'.$idx.'.value', $heroCta->value) }}"
+                                               class="w-full h-11 px-4 bg-msp-bg rounded-xl font-inter text-[14px] text-[#191C1E] border border-msp-border focus:border-msp-gold focus:ring-2 focus:ring-msp-gold/20 focus:outline-none transition"
+                                               placeholder="Teks tombol hero...">
+                                    </div>
+                                @endif
+                            </div>
+                            @endif
 
                             {{-- Live preview mockup --}}
                             <div class="bg-white rounded-2xl border border-msp-border overflow-hidden shadow-sm">
@@ -609,33 +692,58 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                                 @else
                                     @php
                                         $fieldIconMap = [
-                                            'footer_company_name'  => 'fas fa-building text-slate-600',
-                                            'social_linkedin'      => 'fab fa-linkedin text-blue-700',
-                                            'social_facebook'      => 'fab fa-facebook text-blue-600',
-                                            'social_instagram'     => 'fab fa-instagram text-pink-500',
-                                            'social_x'             => 'fab fa-x-twitter text-gray-800',
-                                            'phone'                => 'fas fa-phone text-emerald-600',
-                                            'email'                => 'fas fa-envelope text-rose-500',
-                                            'address'              => 'fas fa-map-marker-alt text-rose-500',
-                                            'office_hours'         => 'fas fa-clock text-rose-400',
-                                            'story'                => 'fas fa-book-open text-amber-600',
-                                            'company_description'  => 'fas fa-building text-slate-500',
-                                            'news_section_title'   => 'fas fa-newspaper text-cyan-600',
-                                            'news_section_subtitle'=> 'fas fa-align-left text-cyan-500',
-                                            'innovation_title'     => 'fas fa-lightbulb text-orange-500',
-                                            'innovation_body_1'    => 'fas fa-align-left text-orange-400',
-                                            'innovation_body_2'    => 'fas fa-align-left text-orange-400',
-                                            'services_grid_title'  => 'fas fa-th-large text-indigo-600',
-                                            'services_grid_subtitle'=> 'fas fa-align-left text-indigo-400',
-                                            'history_section_title'=> 'fas fa-history text-yellow-600',
-                                            'team_section_title'   => 'fas fa-users text-purple-600',
-                                            'team_section_subtitle'=> 'fas fa-align-left text-purple-400',
-                                            'cta_title'            => 'fas fa-bullhorn text-msp-gold',
-                                            'cta_subtitle'         => 'fas fa-align-left text-amber-400',
-                                            'main_services_title'  => 'fas fa-medal text-green-600',
-                                            'quality_title'        => 'fas fa-star text-green-500',
-                                            'quality_body'         => 'fas fa-align-left text-green-400',
-                                            'map_embed_url'        => 'fas fa-map-marked-alt text-teal-600',
+                                            'hero_badge'             => 'fas fa-tag text-msp-blue',
+                                            'hero_cta'               => 'fas fa-mouse-pointer text-msp-blue',
+                                            'footer_company_name'    => 'fas fa-building text-slate-600',
+                                            'social_linkedin'        => 'fab fa-linkedin text-blue-700',
+                                            'social_facebook'        => 'fab fa-facebook text-blue-600',
+                                            'social_instagram'       => 'fab fa-instagram text-pink-500',
+                                            'social_x'               => 'fab fa-x-twitter text-gray-800',
+                                            'phone'                  => 'fas fa-phone text-emerald-600',
+                                            'email'                  => 'fas fa-envelope text-rose-500',
+                                            'address'                => 'fas fa-map-marker-alt text-rose-500',
+                                            'office_hours'           => 'fas fa-clock text-rose-400',
+                                            'contact_info_title'     => 'fas fa-address-card text-rose-600',
+                                            'contact_info_subtitle'  => 'fas fa-align-left text-rose-400',
+                                            'story'                  => 'fas fa-book-open text-amber-600',
+                                            'company_description'    => 'fas fa-building text-slate-500',
+                                            'news_section_title'     => 'fas fa-newspaper text-cyan-600',
+                                            'news_section_subtitle'  => 'fas fa-align-left text-cyan-500',
+                                            'newsletter_title'       => 'fas fa-envelope-open-text text-sky-600',
+                                            'newsletter_subtitle'    => 'fas fa-align-left text-sky-400',
+                                            'innovation_title'       => 'fas fa-lightbulb text-orange-500',
+                                            'innovation_body_1'      => 'fas fa-align-left text-orange-400',
+                                            'innovation_body_2'      => 'fas fa-align-left text-orange-400',
+                                            'services_grid_title'    => 'fas fa-th-large text-indigo-600',
+                                            'services_grid_subtitle' => 'fas fa-align-left text-indigo-400',
+                                            'history_section_title'  => 'fas fa-history text-yellow-600',
+                                            'team_section_title'     => 'fas fa-users text-purple-600',
+                                            'team_section_subtitle'  => 'fas fa-align-left text-purple-400',
+                                            'cta_title'              => 'fas fa-bullhorn text-msp-gold',
+                                            'cta_subtitle'           => 'fas fa-align-left text-amber-400',
+                                            'cta_button_primary'     => 'fas fa-mouse-pointer text-amber-500',
+                                            'cta_button_secondary'   => 'fas fa-mouse-pointer text-amber-400',
+                                            'main_services_title'    => 'fas fa-medal text-green-600',
+                                            'quality_title'          => 'fas fa-star text-green-500',
+                                            'quality_body'           => 'fas fa-align-left text-green-400',
+                                            'map_title'              => 'fas fa-map-marked-alt text-teal-700',
+                                            'map_embed_url'          => 'fas fa-code text-teal-600',
+                                            'sister_badge'           => 'fas fa-tag text-indigo-500',
+                                            'sister_title'           => 'fas fa-handshake text-indigo-600',
+                                            'sister_description'     => 'fas fa-align-left text-indigo-400',
+                                            'sister_url'             => 'fas fa-link text-indigo-500',
+                                            'sister_cta_label'       => 'fas fa-mouse-pointer text-indigo-400',
+                                            'reply_eyebrow'          => 'fas fa-tag text-rose-500',
+                                            'reply_hero_title'       => 'fas fa-heading text-rose-600',
+                                            'reply_hero_subtitle'    => 'fas fa-align-left text-rose-400',
+                                            'reply_greeting'         => 'fas fa-hand-wave text-rose-500',
+                                            'reply_intro'            => 'fas fa-align-left text-rose-400',
+                                            'reset_eyebrow'          => 'fas fa-tag text-amber-500',
+                                            'reset_hero_title'       => 'fas fa-heading text-amber-600',
+                                            'reset_hero_subtitle'    => 'fas fa-align-left text-amber-400',
+                                            'reset_expiry'           => 'fas fa-clock text-amber-500',
+                                            'reset_button'           => 'fas fa-mouse-pointer text-amber-600',
+                                            'reset_security'         => 'fas fa-shield-alt text-amber-500',
                                         ];
                                         $fieldIcon = $fieldIconMap[$content->key]
                                             ?? (in_array($content->key, $textareaKeys) ? 'fas fa-align-left text-msp-gray' : 'fas fa-font text-msp-gray');

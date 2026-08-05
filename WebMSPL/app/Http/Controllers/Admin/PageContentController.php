@@ -42,6 +42,8 @@ class PageContentController extends Controller
                 'innovation_title'       => ['text',  'Judul Seksi Inovasi'],
                 'innovation_body_1'      => ['text',  'Paragraf Inovasi 1'],
                 'innovation_body_2'      => ['text',  'Paragraf Inovasi 2'],
+                'innovation_image_1'     => ['image', 'Gambar Inovasi (Kiri Atas)'],
+                'innovation_image_2'     => ['image', 'Gambar Inovasi (Kanan Bawah)'],
                 'services_grid_title'    => ['text',  'Judul Grid Layanan'],
                 'services_grid_subtitle' => ['text',  'Subjudul Grid Layanan'],
             ],
@@ -49,6 +51,7 @@ class PageContentController extends Controller
                 'hero_title'           => ['text',  'Judul Hero'],
                 'hero_subtitle'        => ['text',  'Subjudul Hero'],
                 'hero_image'           => ['image', 'Gambar Background Hero'],
+                'hero_badge'           => ['text',  'Badge/Eyebrow Hero'],
                 'story'                => ['text',  'Cerita Perusahaan'],
                 'story_image'          => ['image', 'Foto di Seksi Sejarah'],
                 'history_section_title'=> ['text',  'Judul Seksi Sejarah'],
@@ -56,23 +59,56 @@ class PageContentController extends Controller
                 'team_section_subtitle'=> ['text',  'Subjudul Seksi Tim'],
                 'cta_title'            => ['text',  'Judul CTA'],
                 'cta_subtitle'         => ['text',  'Subjudul CTA'],
+                'cta_button_primary'   => ['text',  'Teks Tombol CTA Utama'],
+                'cta_button_secondary' => ['text',  'Teks Tombol CTA Sekunder'],
             ],
             'services' => [
-                'hero_title'          => ['text',  'Judul Hero'],
-                'hero_subtitle'       => ['text',  'Subjudul Hero'],
-                'hero_image'          => ['image', 'Gambar Background Hero'],
-                'main_services_title' => ['text',  'Judul Solusi Utama'],
-                'quality_image'       => ['image', 'Gambar Highlight Kualitas'],
-                'quality_title'       => ['text',  'Judul Highlight Kualitas'],
-                'quality_body'        => ['text',  'Deskripsi Highlight Kualitas'],
-                'cta_title'           => ['text',  'Judul CTA'],
-                'cta_subtitle'        => ['text',  'Subjudul CTA'],
+                'hero_title'            => ['text',  'Judul Hero'],
+                'hero_subtitle'         => ['text',  'Subjudul Hero'],
+                'hero_image'            => ['image', 'Gambar Background Hero'],
+                'main_services_title'   => ['text',  'Judul Solusi Utama'],
+                'quality_image'         => ['image', 'Gambar Highlight Kualitas'],
+                'quality_title'         => ['text',  'Judul Highlight Kualitas'],
+                'quality_body'          => ['text',  'Deskripsi Highlight Kualitas'],
+                'sister_badge'          => ['text',  'Badge Seksi Afiliasi'],
+                'sister_title'          => ['text',  'Judul Seksi Afiliasi'],
+                'sister_description'    => ['text',  'Deskripsi Seksi Afiliasi'],
+                'sister_url'            => ['text',  'URL Website Afiliasi (PT TNS)'],
+                'sister_cta_label'      => ['text',  'Teks Tombol Afiliasi'],
+                'cta_title'             => ['text',  'Judul CTA'],
+                'cta_subtitle'          => ['text',  'Subjudul CTA'],
+                'cta_button_primary'    => ['text',  'Teks Tombol CTA Utama'],
+                'cta_button_secondary'  => ['text',  'Teks Tombol CTA Sekunder'],
             ],
             'contact' => [
-                'hero_title'    => ['text',  'Judul Hero'],
-                'hero_subtitle' => ['text',  'Subjudul Hero'],
-                'hero_image'    => ['image', 'Gambar Background Hero'],
-                'map_embed_url' => ['text',  'URL Embed Google Maps'],
+                'hero_title'           => ['text',  'Judul Hero'],
+                'hero_subtitle'        => ['text',  'Subjudul Hero'],
+                'hero_image'           => ['image', 'Gambar Background Hero'],
+                'hero_cta'             => ['text',  'Teks Tombol Hero'],
+                'contact_info_title'   => ['text',  'Judul Seksi Info Kontak'],
+                'contact_info_subtitle'=> ['text',  'Subjudul Seksi Info Kontak'],
+                'map_title'            => ['text',  'Judul Seksi Peta'],
+                'map_embed_url'        => ['text',  'URL Embed Google Maps'],
+            ],
+            'news' => [
+                'hero_image'          => ['image', 'Gambar Background Hero Berita'],
+                'hero_title'          => ['text',  'Judul Hero (fallback tanpa berita featured)'],
+                'hero_subtitle'       => ['text',  'Subjudul Hero (fallback)'],
+                'newsletter_title'    => ['text',  'Judul Seksi Newsletter'],
+                'newsletter_subtitle' => ['text',  'Subjudul Seksi Newsletter'],
+            ],
+            'emails' => [
+                'reply_eyebrow'       => ['text', 'Balasan — Label Eyebrow'],
+                'reply_hero_title'    => ['text', 'Balasan — Judul Hero'],
+                'reply_hero_subtitle' => ['text', 'Balasan — Subjudul Hero'],
+                'reply_greeting'      => ['text', 'Balasan — Sapaan (sebelum nama penerima)'],
+                'reply_intro'         => ['text', 'Balasan — Paragraf Pembuka'],
+                'reset_eyebrow'       => ['text', 'Reset Password — Label Eyebrow'],
+                'reset_hero_title'    => ['text', 'Reset Password — Judul Hero'],
+                'reset_hero_subtitle' => ['text', 'Reset Password — Subjudul Hero'],
+                'reset_expiry'        => ['text', 'Reset Password — Teks Peringatan Kedaluwarsa'],
+                'reset_button'        => ['text', 'Reset Password — Teks Tombol'],
+                'reset_security'      => ['text', 'Reset Password — Catatan Keamanan'],
             ],
         ];
     }
@@ -95,31 +131,27 @@ class PageContentController extends Controller
         $schema = $this->pageSchema();
         $pageSchema = $schema[$page] ?? [];
 
-        // Upsert: pastikan semua key dalam schema ada di DB
-        foreach ($pageSchema as $key => [$type, $label]) {
-            PageContent::firstOrCreate(
-                ['page' => $page, 'key' => $key],
-                ['type' => $type, 'label' => $label, 'value' => null]
-            );
+        $existing = PageContent::where('page', $page)->get()->keyBy('key');
+
+        $missing = array_filter(array_keys($pageSchema), fn ($k) => ! $existing->has($k));
+        foreach ($missing as $key) {
+            [$type, $label] = $pageSchema[$key];
+            PageContent::create(['page' => $page, 'key' => $key, 'type' => $type, 'label' => $label, 'value' => null]);
         }
 
-        // Load dalam urutan schema
-        $ordered = [];
-        foreach (array_keys($pageSchema) as $key) {
-            $row = PageContent::where('page', $page)->where('key', $key)->first();
-            if ($row) {
-                $ordered[] = $row;
-            }
+        if (! empty($missing)) {
+            $existing = PageContent::where('page', $page)->get()->keyBy('key');
         }
 
-        // Append rows yang tidak ada di schema (custom rows lama)
         $schemaKeys = array_keys($pageSchema);
-        $extra = PageContent::where('page', $page)
-            ->when(count($schemaKeys) > 0, fn ($q) => $q->whereNotIn('key', $schemaKeys))
-            ->orderBy('id')
-            ->get();
 
-        $contents = collect(array_merge($ordered, $extra->all()));
+        $ordered = array_filter(
+            array_map(fn ($k) => $existing->get($k), $schemaKeys),
+        );
+
+        $extra = $existing->filter(fn ($row) => ! in_array($row->key, $schemaKeys, true))->values();
+
+        $contents = collect(array_merge(array_values($ordered), $extra->all()));
 
         return view('admin.page-content.form', compact('page', 'contents'));
     }
@@ -134,19 +166,19 @@ class PageContentController extends Controller
 
         foreach ($request->input('contents') as $idx => $item) {
             $record = PageContent::find((int) $item['id']);
-            if (! $record) {
+            if (! $record || $record->page !== $page) {
                 continue;
             }
 
             if ($record->type === 'image') {
                 $fileKey = "file_{$record->id}";
-                if ($request->hasFile($fileKey) && $request->file($fileKey)->isValid()) {
+                if ($request->hasFile($fileKey)) {
+                    $request->validate([$fileKey => 'file|mimes:jpeg,png,jpg,webp,gif|max:5120']);
                     $file = $request->file($fileKey);
-                    $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $file->getClientOriginalName());
+                    $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
                     $file->move(public_path('images'), $filename);
                     $record->value = $filename;
                 } else {
-                    // Keep existing value from hidden input
                     $record->value = $item['value'] ?? $record->value;
                 }
             } else {

@@ -10,6 +10,7 @@ use App\Models\ServiceFeature;
 use App\Models\ServiceProcessStep;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
@@ -42,14 +43,16 @@ class ServiceController extends Controller
             'is_affiliate' => 'nullable|boolean',
             'status' => 'required|in:draft,published',
             'order' => 'nullable|integer|min:0',
+            'category' => 'nullable|string|max:100',
         ]);
 
         $validated['is_affiliate'] = $request->boolean('is_affiliate');
+        $validated['category'] = $request->input('category') ?: null;
 
         foreach (['icon_image', 'hero_image', 'gallery_image_1', 'gallery_image_2', 'brochure_pdf'] as $field) {
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
-                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $file->extension();
                 $file->move(public_path('images'), $filename);
                 $validated[$field] = $filename;
             } else {
@@ -89,14 +92,16 @@ class ServiceController extends Controller
             'is_affiliate' => 'nullable|boolean',
             'status' => 'required|in:draft,published',
             'order' => 'nullable|integer|min:0',
+            'category' => 'nullable|string|max:100',
         ]);
 
         $validated['is_affiliate'] = $request->boolean('is_affiliate');
+        $validated['category'] = $request->input('category') ?: null;
 
         foreach (['icon_image', 'hero_image', 'gallery_image_1', 'gallery_image_2', 'brochure_pdf'] as $field) {
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
-                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $file->extension();
                 $file->move(public_path('images'), $filename);
                 $validated[$field] = $filename;
             } else {
@@ -156,6 +161,7 @@ class ServiceController extends Controller
                 'title' => $feature['title'],
                 'description' => $feature['description'] ?? '',
                 'order' => $index + 1,
+                'group' => $feature['group'] ?? null,
             ];
 
             if (!empty($feature['id'])) {

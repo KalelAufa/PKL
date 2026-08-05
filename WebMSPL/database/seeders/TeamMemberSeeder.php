@@ -12,28 +12,28 @@ class TeamMemberSeeder extends Seeder
         TeamMember::create([
             'name' => 'Aditya Dharmawan',
             'position' => 'Direktur Utama',
-            'photo' => 'images/team-aditya.png',
+            'photo' => 'team-aditya.png',
             'order' => 1,
         ]);
 
         TeamMember::create([
             'name' => 'Sari Wijaya',
             'position' => 'Manajer Operasional',
-            'photo' => 'images/team-sari.png',
+            'photo' => 'team-sari.png',
             'order' => 2,
         ]);
 
         TeamMember::create([
             'name' => 'Bambang Hartono',
             'position' => 'Manajer Keuangan',
-            'photo' => 'images/team-bambang.png',
+            'photo' => 'team-bambang.png',
             'order' => 3,
         ]);
 
         TeamMember::create([
             'name' => 'Nina Kurnia',
             'position' => 'Manajer HRD',
-            'photo' => 'images/team-nina.png',
+            'photo' => 'team-nina.png',
             'order' => 4,
         ]);
     }

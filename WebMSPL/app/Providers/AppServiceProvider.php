@@ -19,8 +19,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Blade::component('layouts.admin', 'admin-layout');
         Paginator::defaultView('vendor.pagination.tailwind');
-        View::composer(['partials.footer', 'layouts.app'], FooterComposer::class);
+        View::composer([
+            'partials.footer',
+            'layouts.app',
+            'admin.login',
+            'components.admin-dashboard-layout',
+        ], FooterComposer::class);
     }
 }
