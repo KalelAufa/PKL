@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -30,6 +31,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        Log::info('User logged in', ['email' => Auth::user()->email, 'role' => Auth::user()->role, 'ip' => $request->ip()]);
+
         $redirectRoute = in_array(Auth::user()->role, ['admin', 'editor'])
             ? route('admin.index', absolute: false)
             : route('dashboard', absolute: false);
@@ -42,6 +45,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        Log::info('User logged out', ['user_id' => Auth::id()]);
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

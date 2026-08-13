@@ -33,7 +33,6 @@
         <div class="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {{-- Left: image + heading --}}
             <div class="lg:col-span-4 flex flex-col gap-6">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Rekam Jejak</span>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl font-bold leading-snug">{{ $pageContents['history_section_title']->value ?? 'Rekam Jejak & Dedikasi Kami' }}</h2>
                 <div class="rounded-2xl overflow-hidden shadow-sm">
                     <img src="{{ asset('images/' . ($pageContents['story_image']->value ?? 'about-team.png')) }}"
@@ -65,18 +64,18 @@
     <section class="py-16 md:py-24 bg-msp-bg">
         <div class="max-w-[1280px] mx-auto px-6 flex flex-col gap-12">
             <div class="flex flex-col items-center gap-3 text-center">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Tim Kami</span>
+                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Pencapaian</span>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl font-bold leading-snug">{{ $pageContents['team_section_title']->value ?? 'Tim Kepemimpinan' }}</h2>
                 <p class="text-msp-gray text-sm md:text-base leading-relaxed max-w-[600px]">{{ $pageContents['team_section_subtitle']->value ?? 'Dipimpin oleh para profesional berpengalaman yang mengutamakan stabilitas institusional dan inovasi dalam setiap layanan.' }}</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($teamMembers as $index => $member)
-                <div class="flex flex-col bg-white rounded-2xl border border-msp-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                <div class="flex flex-col bg-white rounded-2xl border border-msp-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
                     <div class="bg-[#F0F3FF] flex items-center justify-center h-[280px] md:h-[300px] overflow-hidden">
                         <img src="{{ $member->photo ? asset('images/' . $member->photo) : asset('images/placeholder-person.png') }}"
                             alt="{{ $member->name }}" loading="lazy"
-                            class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105">
+                            class="w-full h-full object-cover object-center transition-transform duration-500 hover:-translate-y-0.5">
                     </div>
                     <div class="flex flex-col gap-1 p-5 md:p-6">
                         <h3 class="font-space text-msp-navy text-lg font-bold">{{ $member->name }}</h3>
@@ -91,15 +90,16 @@
     {{-- CTA Section --}}
     <section class="py-16 md:py-24 px-4 bg-msp-bg">
         <div class="mx-2 md:mx-4 lg:mx-6 py-16 md:py-20 bg-msp-navy rounded-3xl">
-            <div class="max-w-[1280px] mx-auto px-6 flex flex-col items-center gap-6 text-center">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Mulai Sekarang</span>
-                <h2 class="font-space text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-snug tracking-tight">{{ $pageContents['cta_title']->value ?? 'Siap Menjadi Mitra Anda' }}</h2>
-                <p class="text-msp-light text-base md:text-lg leading-7 max-w-[520px] opacity-90">{{ $pageContents['cta_subtitle']->value ?? 'Hubungi kami hari ini untuk konsultasi mengenai solusi proteksi dan operasional bisnis Anda.' }}</p>
-                <div class="flex flex-wrap gap-4 pt-2 justify-center">
+            <div class="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="flex flex-col gap-3 max-w-xl">
+                    <h2 class="font-space text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-snug tracking-tight">{{ $pageContents['cta_title']->value ?? 'Siap Menjadi Mitra Anda' }}</h2>
+                    <p class="text-msp-light text-base md:text-lg leading-7 opacity-90">{{ $pageContents['cta_subtitle']->value ?? 'Hubungi kami hari ini untuk konsultasi mengenai solusi proteksi dan operasional bisnis Anda.' }}</p>
+                </div>
+                <div class="flex flex-wrap gap-4 shrink-0">
                     <a href="{{ route('contact') }}"
-                        class="px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition-all duration-300 hover:brightness-110 hover:shadow-lg">{{ $pageContents['cta_button_primary']->value ?? 'Hubungi Kami Sekarang' }}</a>
+                        class="px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition duration-300 hover:brightness-110 hover:shadow-lg whitespace-nowrap">{{ $pageContents['cta_button_primary']->value ?? 'Hubungi Kami Sekarang' }}</a>
                     <a href="{{ route('services') }}"
-                        class="px-8 py-3.5 border border-white/30 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:bg-white/10">{{ $pageContents['cta_button_secondary']->value ?? 'Lihat Layanan Kami' }}</a>
+                        class="px-8 py-3.5 border border-white/30 text-white font-semibold text-sm rounded-xl transition duration-300 hover:bg-white/10 whitespace-nowrap">{{ $pageContents['cta_button_secondary']->value ?? 'Lihat Layanan Kami' }}</a>
                 </div>
             </div>
         </div>

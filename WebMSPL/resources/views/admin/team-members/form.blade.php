@@ -93,7 +93,7 @@
                     <div class="flex items-center gap-3 pt-3 border-t border-msp-border">
                         <button type="submit" :disabled="submitting"
                                 class="h-10 px-6 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B] inline-flex items-center gap-2 hover:brightness-95 transition disabled:opacity-60"
-                                style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                                style="background: var(--gradient-gold)">
                             <i class="fas fa-save text-[11px]"></i>
                             {{ $isEdit ? 'Simpan Perubahan' : 'Tambah Anggota' }}
                         </button>

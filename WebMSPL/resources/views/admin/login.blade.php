@@ -8,20 +8,17 @@
     <link rel="icon" type="image/png" href="{{ $footerContent['company_logo']->value ?? null ? asset('images/' . $footerContent['company_logo']->value) : asset('images/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
     @vite(['resources/css/app.css'])
 </head>
 <body class="font-inter antialiased min-h-screen flex">
 
     {{-- Left panel: brand --}}
     <div class="hidden lg:flex lg:w-[480px] flex-col justify-between relative overflow-hidden"
-         style="background: linear-gradient(160deg, #0B2145 0%, #0B1E3E 60%, #071535 100%);">
+         style="background: var(--gradient-sidebar)">
 
-        {{-- Decorative gold blob --}}
-        <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full opacity-10"
-             style="background: radial-gradient(circle, #F2A71B 0%, transparent 70%)"></div>
-        <div class="absolute -bottom-16 -left-16 w-56 h-56 rounded-full opacity-10"
-             style="background: radial-gradient(circle, #2A3F9E 0%, transparent 70%)"></div>
+
 
         {{-- Top: logo --}}
         <div class="px-10 pt-12">
@@ -153,8 +150,8 @@
                     </div>
 
                     <button type="submit"
-                            class="w-full h-[48px] rounded-xl font-hanken font-bold text-[15px] text-[#071B3B] hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-msp-gold/40 transition-all duration-200 shadow-[0_4px_14px_rgba(242,167,27,0.25)]"
-                            style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                            class="w-full h-12 rounded-xl font-hanken font-bold text-[15px] text-[#071B3B] hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-msp-gold/40 transition duration-200 shadow-[0_4px_14px_rgba(242,167,27,0.25)]"
+                            style="background: var(--gradient-gold)">
                         <i class="fas fa-sign-in-alt mr-2 text-[13px]"></i>
                         Masuk ke Panel Admin
                     </button>

@@ -50,6 +50,7 @@ class NewPasswordController extends Controller
                     'remember_token' => Str::random(60),
                 ])->save();
 
+                \Illuminate\Support\Facades\Auth::logoutOtherDevices($request->password);
                 event(new PasswordReset($user));
             }
         );

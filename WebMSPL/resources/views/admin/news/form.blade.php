@@ -192,7 +192,7 @@
                 <div class="space-y-2.5">
                     <button type="submit" :disabled="submitting"
                             class="w-full h-11 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B] inline-flex items-center justify-center gap-2 hover:brightness-95 transition disabled:opacity-60 shadow-[0_2px_8px_rgba(242,167,27,0.2)]"
-                            style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                            style="background: var(--gradient-gold)">
                         <i class="fas fa-save text-[12px]"></i>
                         <span x-text="submitting ? 'Menyimpan...' : '{{ isset($news) ? 'Simpan Perubahan' : 'Publikasikan' }}'">
                             {{ isset($news) ? 'Simpan Perubahan' : 'Publikasikan' }}

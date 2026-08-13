@@ -31,7 +31,7 @@
 
         {{-- Total Berita --}}
         <a href="{{ route('admin.news.index') }}"
-           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-blue/30 transition-all duration-200 flex flex-col">
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-blue/30 transition duration-200 flex flex-col">
             <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #2A3F9E 0%, #5470d4 100%)"></div>
             <div class="p-5 pt-6 flex flex-col flex-1">
                 <div class="flex items-start justify-between mb-4">
@@ -49,7 +49,7 @@
 
         {{-- Total Layanan --}}
         <a href="{{ route('admin.services.index') }}"
-           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition-all duration-200 flex flex-col">
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition duration-200 flex flex-col">
             <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #F2A71B 0%, #FBC34C 100%)"></div>
             <div class="p-5 pt-6 flex flex-col flex-1">
                 <div class="flex items-start justify-between mb-4">
@@ -67,7 +67,7 @@
 
         {{-- Pesan Baru --}}
         <a href="{{ route('admin.messages.index') }}"
-           class="group relative bg-white rounded-2xl border overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col
+           class="group relative bg-white rounded-2xl border overflow-hidden hover:shadow-lg transition duration-200 flex flex-col
                {{ $pesanBaru > 0 ? 'border-amber-200 ring-1 ring-amber-100' : 'border-msp-border hover:border-green-200' }}">
             <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl {{ $pesanBaru > 0 ? '' : '' }}"
                  style="background: {{ $pesanBaru > 0 ? 'linear-gradient(90deg,#F2A71B 0%,#FBC34C 100%)' : 'linear-gradient(90deg,#22c55e 0%,#4ade80 100%)' }}"></div>
@@ -95,7 +95,7 @@
 
         {{-- Total Tim --}}
         <a href="{{ route('admin.team-members.index') }}"
-           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-navy/20 transition-all duration-200 flex flex-col">
+           class="group relative bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-navy/20 transition duration-200 flex flex-col">
             <div class="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style="background: linear-gradient(90deg, #0B2145 0%, #2A3F9E 100%)"></div>
             <div class="p-5 pt-6 flex flex-col flex-1">
                 <div class="flex items-start justify-between mb-4">

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\PageContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CompanySettingsController extends Controller
 {
@@ -58,9 +60,7 @@ class CompanySettingsController extends Controller
                 if ($request->hasFile($fileKey)) {
                     $request->validate([$fileKey => 'file|mimes:jpeg,png,jpg,webp,gif|max:5120']);
                     $file     = $request->file($fileKey);
-                    $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
-                    $file->move(public_path('images'), $filename);
-                    $record->value = $filename;
+                    $record->value = ImageHelper::saveAsWebP($file, public_path('images'));
                 } else {
                     $record->value = $item['value'] ?? $record->value;
                 }
@@ -70,6 +70,8 @@ class CompanySettingsController extends Controller
 
             $record->save();
         }
+
+        Log::info('Company settings updated', ['by' => auth()->user()->name]);
 
         return redirect()->route('admin.company-settings.index')
             ->with('success', 'Identitas perusahaan berhasil disimpan.');

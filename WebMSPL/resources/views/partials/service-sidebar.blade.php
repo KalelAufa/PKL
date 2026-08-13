@@ -25,7 +25,7 @@
         <div class="bg-[#F8F9FA] border border-msp-border p-6 rounded-2xl flex flex-col gap-2" data-aos="fade-up">
             <h3 class="font-space font-semibold text-msp-dark text-2xl leading-[34px]">Butuh Bantuan?</h3>
             <p class="text-msp-gray text-sm leading-5 pb-4">Tim ahli kami siap membantu memberikan solusi terbaik untuk bisnis Anda.</p>
-            <a href="{{ route('contact') }}" class="block bg-msp-dark text-white font-bold text-base leading-6 text-center py-3 uppercase transition-all duration-300 hover:opacity-90">HUBUNGI KAMI</a>
+            <a href="{{ route('contact') }}" class="block bg-msp-dark text-white font-bold text-base leading-6 text-center py-3 uppercase transition duration-300 hover:opacity-90">HUBUNGI KAMI</a>
         </div>
     </div>
 </aside>

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiter;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -15,6 +16,7 @@ class ContactController extends Controller
         $key = 'contact-form:' . $request->ip();
 
         if ($limiter->tooManyAttempts($key, 3)) {
+            Log::warning('Contact rate limit exceeded', ['ip' => $request->ip()]);
             return response()->json([
                 'success' => false,
                 'message' => 'Terlalu banyak permintaan. Silakan coba lagi dalam 1 jam.',
@@ -32,7 +34,10 @@ class ContactController extends Controller
             'service' => 'nullable|string|max:255',
         ]);
 
+        $validated['message'] = strip_tags($validated['message']);
         ContactMessage::create($validated);
+
+        Log::info('Contact message received', ['name' => $validated['name'], 'email' => $validated['email'], 'service' => $validated['service'] ?? null]);
 
         return response()->json([
             'success' => true,

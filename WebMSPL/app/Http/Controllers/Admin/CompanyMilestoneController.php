@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompanyMilestone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CompanyMilestoneController extends Controller
 {
@@ -31,7 +32,9 @@ class CompanyMilestoneController extends Controller
             'order' => 'nullable|integer|min:0',
         ]);
 
-        CompanyMilestone::create($validated);
+        $milestone = CompanyMilestone::create($validated);
+
+        Log::info('Milestone created', ['title' => $milestone->title, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.milestones.index')->with('success', 'Milestone berhasil ditambahkan.');
     }
@@ -52,11 +55,15 @@ class CompanyMilestoneController extends Controller
 
         $milestone->update($validated);
 
+        Log::info('Milestone updated', ['id' => $milestone->id, 'title' => $milestone->title, 'by' => auth()->user()->name]);
+
         return redirect()->route('admin.milestones.index')->with('success', 'Milestone berhasil diperbarui.');
     }
 
     public function destroy(CompanyMilestone $milestone)
     {
+        Log::info('Milestone deleted', ['id' => $milestone->id, 'title' => $milestone->title, 'by' => auth()->user()->name]);
+
         $milestone->delete();
 
         return redirect()->route('admin.milestones.index')->with('success', 'Milestone berhasil dihapus.');

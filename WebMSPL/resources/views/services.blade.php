@@ -25,7 +25,6 @@
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B2145] via-[rgba(11,33,69,0.75)] to-[rgba(11,33,69,0.45)]"></div>
         <div class="absolute bottom-0 left-0 right-0 flex flex-col px-8 pb-12 md:px-12">
             <div class="max-w-[672px] flex flex-col gap-4 md:gap-5">
-                <span class="w-fit font-mono text-msp-gold text-xs tracking-widest uppercase">Layanan Kami</span>
                 <h1 class="font-space text-white text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
                     {{ $pageContents['hero_title']->value ?? 'Layanan Kami' }}
                 </h1>
@@ -41,7 +40,6 @@
 <section class="py-16 md:py-24 bg-white">
     <div class="max-w-[1280px] mx-auto px-6 flex flex-col gap-10">
         <div class="flex flex-col gap-2">
-            <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Solusi Utama</span>
             <h2 class="font-space text-msp-navy text-2xl md:text-3xl lg:text-4xl font-bold leading-snug">
                 {{ $pageContents['main_services_title']->value ?? 'Solusi Utama' }}
             </h2>
@@ -61,12 +59,12 @@
             @foreach($mainServices as $service)
                 @if($loop->iteration % 4 === 1 || $loop->iteration % 4 === 0)
                 {{-- Wide card WITH image --}}
-                <div class="md:col-span-8 bg-white rounded-2xl overflow-hidden border border-msp-border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col sm:flex-row">
+                <div class="md:col-span-8 bg-white rounded-2xl overflow-hidden border border-msp-border shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col sm:flex-row">
                     <div class="w-full sm:w-[42%] h-52 sm:h-auto overflow-hidden shrink-0">
                         @if($service->hero_image)
                             <img src="{{ asset('images/' . $service->hero_image) }}"
                                 alt="{{ $service->title }}"
-                                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                                class="w-full h-full object-cover transition-transform duration-500 hover:-translate-y-0.5">
                         @else
                             <div class="w-full h-full min-h-[200px] bg-msp-navy flex items-center justify-center">
                                 <i class="{{ $service->icon ?? 'fas fa-briefcase' }} text-5xl text-white/20"></i>
@@ -84,7 +82,7 @@
                             <p class="text-msp-gray text-sm md:text-base leading-relaxed">{{ $service->excerpt }}</p>
                         </div>
                         <a href="{{ route('service.detail', $service->slug) }}"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl w-fit transition-all duration-300 hover:brightness-110 hover:shadow-md">
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl w-fit transition duration-300 hover:brightness-110 hover:shadow-md">
                             Pelajari Lebih Lanjut
                             <i class="fas fa-arrow-right text-xs"></i>
                         </a>
@@ -92,7 +90,7 @@
                 </div>
                 @else
                 {{-- Narrow card WITHOUT image --}}
-                <div class="md:col-span-4 bg-white border border-msp-border rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col p-7 lg:p-8 gap-5">
+                <div class="md:col-span-4 bg-white border border-msp-border rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col p-7 lg:p-8 gap-5">
                     <div class="w-10 h-10 bg-msp-bg rounded-xl flex items-center justify-center shrink-0">
                         <i class="{{ $service->icon ?? 'fas fa-cogs' }} text-msp-blue text-lg"></i>
                     </div>
@@ -101,7 +99,7 @@
                         <p class="text-msp-gray text-sm leading-relaxed flex-1">{{ $service->excerpt }}</p>
                     </div>
                     <a href="{{ route('service.detail', $service->slug) }}"
-                        class="inline-flex items-center gap-1.5 text-msp-navy font-bold text-sm transition-all duration-300 hover:gap-2.5 group mt-auto">
+                        class="inline-flex items-center gap-1.5 text-msp-navy font-bold text-sm transition duration-300 hover:gap-2.5 group mt-auto">
                         Detail Layanan
                         <i class="fas fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
                     </a>
@@ -145,13 +143,12 @@
     <div class="max-w-[1280px] mx-auto px-6">
         <div class="bg-white rounded-2xl border border-msp-border shadow-sm p-6 md:p-10 lg:p-12 flex flex-col gap-8">
             <div class="flex flex-col gap-2">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">{{ $pageContents['sister_badge']->value ?? 'Layanan Afiliasi' }}</span>
                 <h2 class="font-space text-msp-navy text-xl md:text-2xl font-bold">{!! clean($pageContents['sister_title']->value ?? 'Pengadaan Barang &amp; IT Support') !!}</h2>
                 <p class="text-msp-gray text-base leading-relaxed max-w-[680px]">{{ $pageContents['sister_description']->value ?? 'Untuk kebutuhan pengadaan peralatan kantor, infrastruktur IT, dan dukungan teknis, layanan ini disediakan secara khusus oleh sister company kami.' }}</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($affiliateServices as $aff)
-                <div class="flex flex-col gap-3 p-6 bg-msp-bg rounded-2xl border border-msp-border hover:shadow-sm transition-all duration-300">
+                <div class="flex flex-col gap-3 p-6 bg-msp-bg rounded-2xl border border-msp-border hover:shadow-sm transition duration-300">
                     <div class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-msp-border">
                         @if($aff->icon)
                             <i class="{{ $aff->icon }} text-msp-blue"></i>
@@ -168,7 +165,7 @@
             </div>
             <div>
                 <a href="{{ $pageContents['sister_url']->value ?? 'https://tns.co.id' }}" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-msp-blue text-msp-blue font-semibold text-sm transition-all duration-300 hover:bg-msp-blue hover:text-white">
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-msp-blue text-msp-blue font-semibold text-sm transition duration-300 hover:bg-msp-blue hover:text-white">
                     {{ $pageContents['sister_cta_label']->value ?? 'Kunjungi Website PT TNS' }}
                     <i class="fas fa-external-link-alt text-[13px]"></i>
                 </a>
@@ -182,13 +179,12 @@
     <div class="max-w-[1280px] mx-auto px-6">
         <div class="bg-white rounded-2xl border border-msp-border shadow-sm p-6 md:p-10 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div class="max-w-[680px] flex flex-col gap-3">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">{{ $pageContents['sister_badge']->value ?? 'Layanan Afiliasi' }}</span>
                 <h2 class="font-space text-msp-navy text-xl md:text-2xl font-bold">{!! clean($pageContents['sister_title']->value ?? 'Pengadaan Barang &amp; IT Support') !!}</h2>
                 <p class="text-msp-gray text-base leading-relaxed">{{ $pageContents['sister_description']->value ?? 'Untuk kebutuhan pengadaan peralatan kantor, infrastruktur IT, dan dukungan teknis, layanan ini disediakan secara khusus oleh sister company kami, PT TNS.' }}</p>
             </div>
             <div class="shrink-0">
                 <a href="{{ $pageContents['sister_url']->value ?? 'https://tns.co.id' }}" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-msp-blue text-msp-blue font-semibold text-sm transition-all duration-300 hover:bg-msp-blue hover:text-white">
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-msp-blue text-msp-blue font-semibold text-sm transition duration-300 hover:bg-msp-blue hover:text-white">
                     {{ $pageContents['sister_cta_label']->value ?? 'Kunjungi Website PT TNS' }}
                     <i class="fas fa-external-link-alt text-[13px]"></i>
                 </a>
@@ -201,15 +197,16 @@
 {{-- CTA --}}
 <section class="py-16 md:py-24 px-4 bg-msp-bg">
     <div class="mx-2 md:mx-4 lg:mx-6 py-16 md:py-20 bg-msp-navy rounded-3xl">
-        <div class="max-w-[1280px] mx-auto px-6 flex flex-col items-center gap-6 text-center">
-            <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Konsultasi Gratis</span>
-            <h2 class="font-space text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-snug tracking-tight">{{ $pageContents['cta_title']->value ?? 'Siap Meningkatkan Standar Operasional Anda?' }}</h2>
-            <p class="text-msp-light text-base md:text-lg leading-7 max-w-[520px] opacity-90">{{ $pageContents['cta_subtitle']->value ?? 'Diskusikan kebutuhan perusahaan Anda dengan tim ahli kami untuk mendapatkan solusi yang tepat sasaran.' }}</p>
-            <div class="flex flex-wrap gap-4 pt-2 justify-center">
+        <div class="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex flex-col gap-3 max-w-xl">
+                <h2 class="font-space text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-snug tracking-tight">{{ $pageContents['cta_title']->value ?? 'Siap Meningkatkan Standar Operasional Anda?' }}</h2>
+                <p class="text-msp-light text-base md:text-lg leading-7 opacity-90">{{ $pageContents['cta_subtitle']->value ?? 'Diskusikan kebutuhan perusahaan Anda dengan tim ahli kami untuk mendapatkan solusi yang tepat sasaran.' }}</p>
+            </div>
+            <div class="flex flex-wrap gap-4 shrink-0">
                 <a href="{{ route('contact') }}"
-                    class="px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition-all duration-300 hover:brightness-110 hover:shadow-lg">{{ $pageContents['cta_button_primary']->value ?? 'Jadwalkan Konsultasi' }}</a>
+                    class="px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition duration-300 hover:brightness-110 hover:shadow-lg whitespace-nowrap">{{ $pageContents['cta_button_primary']->value ?? 'Jadwalkan Konsultasi' }}</a>
                 <a href="{{ route('services') }}"
-                    class="px-8 py-3.5 border border-white/30 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:bg-white/10">{{ $pageContents['cta_button_secondary']->value ?? 'Lihat Layanan Lainnya' }}</a>
+                    class="px-8 py-3.5 border border-white/30 text-white font-semibold text-sm rounded-xl transition duration-300 hover:bg-white/10 whitespace-nowrap">{{ $pageContents['cta_button_secondary']->value ?? 'Lihat Layanan Lainnya' }}</a>
             </div>
         </div>
     </div>

@@ -12,7 +12,6 @@ import Swiper from 'swiper';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu
@@ -110,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
             loop: true,
             autoplay: {
                 delay: 4000,
+                pauseOnMouseEnter: true,
                 disableOnInteraction: false,
             },
             pagination: {

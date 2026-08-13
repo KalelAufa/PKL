@@ -82,12 +82,12 @@
             @endphp
 
             <a href="{{ route('admin.page-content.edit', $page) }}"
-               class="group bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition-all duration-200 flex flex-col">
+               class="group bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition duration-200 flex flex-col">
 
                 {{-- Top banner --}}
                 <div class="h-28 relative overflow-hidden">
                     @if($heroUrl)
-                        <img src="{{ $heroUrl }}" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="{{ $heroUrl }}" alt="" class="w-full h-full object-cover group-hover:-translate-y-0.5 transition duration-500">
                         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
                     @else
                         <div class="w-full h-full bg-gradient-to-br {{ $meta['color'] }} opacity-90"></div>
@@ -140,7 +140,7 @@
                                 </span>
                             @endif
                             <span class="h-7 px-3 rounded-lg font-hanken font-bold text-[12px] text-[#071B3B] inline-flex items-center gap-1.5 group-hover:brightness-95 transition"
-                                  style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                                  style="background: var(--gradient-gold)">
                                 <i class="fas fa-pen text-[9px]"></i> Edit
                             </span>
                         </div>

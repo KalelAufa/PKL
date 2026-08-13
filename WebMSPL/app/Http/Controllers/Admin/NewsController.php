@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
 {
@@ -51,10 +53,12 @@ class NewsController extends Controller
         $validated['published_at'] = $validated['status'] === 'published' ? now() : null;
 
         if ($request->hasFile('thumbnail')) {
-            $validated['thumbnail'] = $request->file('thumbnail')->store('news', 'public');
+            $validated['thumbnail'] = 'news/' . ImageHelper::saveAsWebP($request->file('thumbnail'), storage_path('app/public/news'));
         }
 
         News::create($validated);
+
+        Log::info('News created', ['title' => $validated['title'], 'author' => auth()->user()->name]);
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan.');
     }
@@ -91,16 +95,20 @@ class NewsController extends Controller
             if ($news->thumbnail) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($news->thumbnail);
             }
-            $validated['thumbnail'] = $request->file('thumbnail')->store('news', 'public');
+            $validated['thumbnail'] = 'news/' . ImageHelper::saveAsWebP($request->file('thumbnail'), storage_path('app/public/news'));
         }
 
         $news->update($validated);
+
+        Log::info('News updated', ['id' => $news->id, 'title' => $news->title, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy(News $news)
     {
+        Log::info('News deleted', ['id' => $news->id, 'title' => $news->title, 'by' => auth()->user()->name]);
+
         $news->delete();
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus.');

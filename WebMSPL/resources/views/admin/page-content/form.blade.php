@@ -204,7 +204,7 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                 @php $sec = $sectionDefs[$sectionKey] ?? ['label'=>'Lainnya','icon'=>'fas fa-ellipsis-h','color'=>'text-gray-500','bg'=>'bg-gray-100']; @endphp
                 <button type="button"
                         @click="activeSection = '{{ $sectionKey }}'"
-                        class="group w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-left transition-all duration-150"
+                        class="group w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-left transition duration-150"
                         :class="activeSection === '{{ $sectionKey }}'
                             ? 'bg-white shadow-sm border border-msp-border text-msp-navy'
                             : 'text-msp-gray hover:bg-white/70 hover:text-[#191C1E] border border-transparent'">
@@ -221,7 +221,7 @@ $firstSection = array_key_first($grouped) ?? 'hero';
         <div class="p-3 border-t border-msp-border bg-white space-y-2">
             <button type="submit" form="contentForm"
                     class="w-full h-9 rounded-xl font-hanken font-bold text-[13px] text-[#071B3B] flex items-center justify-center gap-2 hover:brightness-95 transition"
-                    style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                    style="background: var(--gradient-gold)">
                 <i class="fas fa-save text-[11px]"></i>
                 Simpan
             </button>
@@ -258,7 +258,7 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                 @endif
                 <button type="submit" form="contentForm"
                         class="h-9 px-5 rounded-xl font-hanken font-bold text-[13px] text-[#071B3B] flex items-center gap-2 hover:brightness-95 transition shadow-sm"
-                        style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                        style="background: var(--gradient-gold)">
                     <i class="fas fa-save text-[11px]"></i>
                     Simpan Perubahan
                 </button>
@@ -434,7 +434,7 @@ $firstSection = array_key_first($grouped) ?? 'hero';
                                     </span>
                                 </div>
                                 <div class="relative h-36 overflow-hidden"
-                                     style="background: linear-gradient(160deg, #0B2145 0%, #2A3F9E 100%)">
+                                     style="background: var(--gradient-sidebar)">
                                     @if($heroImg && $heroImg->value)
                                         @php $pImgUrl = str_starts_with($heroImg->value,'images/') ? asset($heroImg->value) : asset('images/'.$heroImg->value); @endphp
                                         <img src="{{ $pImgUrl }}" alt="" class="absolute inset-0 w-full h-full object-cover opacity-30">

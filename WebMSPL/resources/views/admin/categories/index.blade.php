@@ -10,7 +10,7 @@
         </div>
         <a href="{{ route('admin.categories.create') }}"
            class="shrink-0 h-10 px-5 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B] inline-flex items-center gap-2 hover:brightness-95 transition shadow-[0_2px_8px_rgba(242,167,27,0.2)]"
-           style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+           style="background: var(--gradient-gold)">
             <i class="fas fa-plus text-[11px]"></i>
             Tambah Kategori
         </a>
@@ -82,7 +82,7 @@
                             <p class="font-inter text-[13px] text-msp-gray-light mb-4">Buat kategori untuk mengorganisir konten berita.</p>
                             <a href="{{ route('admin.categories.create') }}"
                                class="inline-flex items-center gap-2 h-9 px-5 rounded-lg font-hanken font-bold text-[13px] text-[#071B3B]"
-                               style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                               style="background: var(--gradient-gold)">
                                 <i class="fas fa-plus text-[10px]"></i> Tambah Kategori Pertama
                             </a>
                         </td>

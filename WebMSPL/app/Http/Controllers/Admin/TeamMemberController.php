@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TeamMemberController extends Controller
 {
@@ -32,15 +34,14 @@ class TeamMemberController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
-            $file->move(public_path('images'), $filename);
-            $validated['photo'] = $filename;
+            $validated['photo'] = ImageHelper::saveAsWebP($request->file('photo'), public_path('images'));
         } else {
             unset($validated['photo']);
         }
 
-        TeamMember::create($validated);
+        $teamMember = TeamMember::create($validated);
+
+        Log::info('Team member created', ['name' => $teamMember->name, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.team-members.index')->with('success', 'Anggota tim berhasil ditambahkan.');
     }
@@ -60,21 +61,22 @@ class TeamMemberController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
-            $file->move(public_path('images'), $filename);
-            $validated['photo'] = $filename;
+            $validated['photo'] = ImageHelper::saveAsWebP($request->file('photo'), public_path('images'));
         } else {
             unset($validated['photo']);
         }
 
         $teamMember->update($validated);
 
+        Log::info('Team member updated', ['id' => $teamMember->id, 'name' => $teamMember->name, 'by' => auth()->user()->name]);
+
         return redirect()->route('admin.team-members.index')->with('success', 'Anggota tim berhasil diperbarui.');
     }
 
     public function destroy(TeamMember $teamMember)
     {
+        Log::info('Team member deleted', ['id' => $teamMember->id, 'name' => $teamMember->name, 'by' => auth()->user()->name]);
+
         $teamMember->delete();
 
         return redirect()->route('admin.team-members.index')->with('success', 'Anggota tim berhasil dihapus.');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ContactReply;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
@@ -58,11 +59,14 @@ class ContactMessageController extends Controller
                 originalMessage: $message->message,
                 sentAt: $message->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') . ' WIB',
             ));
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Contact reply failed', ['email' => $message->email, 'error' => $e->getMessage()]);
             return response()->json(['success' => false, 'message' => 'Gagal mengirim balasan. Periksa konfigurasi email.'], 500);
         }
 
         $message->update(['is_read' => true]);
+
+        Log::info('Contact reply sent', ['to' => $message->email, 'by' => auth()->user()->name]);
 
         return response()->json(['success' => true, 'message' => 'Balasan berhasil dikirim.']);
     }

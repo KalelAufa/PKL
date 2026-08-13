@@ -23,7 +23,7 @@
             @foreach($navLinks as [$href, $label, $match])
                 @php $active = request()->is(ltrim($href, '/') ?: '/') || ($match !== '/' && request()->is($match)); @endphp
                 <a href="{{ url($href) }}"
-                   class="{{ $active ? 'text-msp-gold font-semibold border-b-2 border-msp-gold pb-0.5' : 'text-msp-gray relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-msp-gold after:transition-all after:duration-300 hover:after:w-full' }} text-[15px] transition-colors duration-200 hover:text-msp-navy">
+                   class="{{ $active ? 'text-msp-gold font-semibold border-b-2 border-msp-gold pb-0.5' : 'text-msp-gray relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-msp-gold after:transition after:duration-300 hover:after:w-full' }} text-[15px] transition-colors duration-200 hover:text-msp-navy">
                     {{ $label }}
                 </a>
             @endforeach
@@ -32,7 +32,8 @@
         <div class="flex items-center gap-2 sm:gap-3">
             {{-- CTA desktop --}}
             <a href="{{ url('/hubungi-kami') }}"
-               class="hidden md:inline-flex items-center px-5 py-2 {{ request()->is('hubungi-kami') ? 'bg-msp-navy text-white' : 'bg-gradient-to-br from-[#F2A71B] to-[#FBC34C] text-msp-navy' }} rounded-xl font-semibold text-[14px] transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap">
+               class="hidden md:inline-flex items-center px-5 py-2 {{ request()->is('hubungi-kami') ? 'bg-msp-navy text-white' : 'text-msp-navy' }} rounded-xl font-semibold text-[14px] transition duration-200 hover:-translate-y-0.5 hover:shadow-md whitespace-nowrap"
+               @if(!request()->is('hubungi-kami')) style="background: var(--gradient-gold)" @endif>
                 Hubungi Kami
             </a>
 

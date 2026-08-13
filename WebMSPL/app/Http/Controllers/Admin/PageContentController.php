@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\PageContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PageContentController extends Controller
 {
@@ -116,10 +118,11 @@ class PageContentController extends Controller
     public function index()
     {
         $schema = $this->pageSchema();
-        $pages = collect(array_keys($schema))->map(function ($page) {
+        $allContents = PageContent::whereIn('page', array_keys($schema))->get()->groupBy('page');
+        $pages = collect(array_keys($schema))->map(function ($page) use ($allContents) {
             $item = new \stdClass();
             $item->page = $page;
-            $item->contents = PageContent::where('page', $page)->get();
+            $item->contents = $allContents->get($page, collect());
             return $item;
         });
 
@@ -175,9 +178,7 @@ class PageContentController extends Controller
                 if ($request->hasFile($fileKey)) {
                     $request->validate([$fileKey => 'file|mimes:jpeg,png,jpg,webp,gif|max:5120']);
                     $file = $request->file($fileKey);
-                    $filename = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
-                    $file->move(public_path('images'), $filename);
-                    $record->value = $filename;
+                    $record->value = ImageHelper::saveAsWebP($file, public_path('images'));
                 } else {
                     $record->value = $item['value'] ?? $record->value;
                 }
@@ -187,6 +188,8 @@ class PageContentController extends Controller
 
             $record->save();
         }
+
+        Log::info('Page content updated', ['page' => $page, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.page-content.edit', $page)
             ->with('success', 'Konten halaman berhasil diperbarui.');

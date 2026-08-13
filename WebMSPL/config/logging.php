@@ -63,6 +63,8 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
+            // Redact PII (email, IP, password, token) sebelum ditulis
+            'processors' => [App\Logging\SensitiveDataProcessor::class],
         ],
 
         'daily' => [
@@ -71,6 +73,17 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,
+            // Ringkas: timestamp singkat, tanpa stack trace raksasa, tanpa context kosong
+            'formatter' => Monolog\Formatter\LineFormatter::class,
+            'formatter_with' => [
+                'format' => "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
+                'dateFormat' => 'Y-m-d H:i:s',
+                'allowInlineLineBreaks' => true,
+                'ignoreEmptyContextAndExtra' => true,
+                'includeStacktraces' => false,
+            ],
+            // Redact PII (email, IP, password, token) sebelum ditulis
+            'processors' => [App\Logging\SensitiveDataProcessor::class],
         ],
 
         'slack' => [

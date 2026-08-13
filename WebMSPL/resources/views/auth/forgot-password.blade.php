@@ -59,7 +59,7 @@
 
             {{-- Submit --}}
             <button type="submit"
-                    class="w-full h-[48px] rounded-xl font-hanken font-bold text-[15px] text-[#071B3B] hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-msp-gold/40 transition-all duration-200 shadow-[0_4px_14px_rgba(242,167,27,0.25)]"
+                    class="w-full h-[48px] rounded-xl font-hanken font-bold text-[15px] text-[#071B3B] hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-msp-gold/40 transition duration-200 shadow-[0_4px_14px_rgba(242,167,27,0.25)]"
                     style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
                 <i class="fas fa-paper-plane mr-2 text-[13px]"></i>
                 Kirim Tautan Reset

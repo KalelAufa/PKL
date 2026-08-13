@@ -10,10 +10,10 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $password = env('ADMIN_SEED_PASSWORD');
+        $password = config('app.admin_seed_password') ?: env('ADMIN_SEED_PASSWORD');
 
         if (empty($password)) {
-            $this->command->error('ADMIN_SEED_PASSWORD not set in .env — skipping admin seeder.');
+            $this->command->warn('ADMIN_SEED_PASSWORD not set — skipping admin seeder.');
             return;
         }
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -39,7 +40,9 @@ class UserController extends Controller
 
         $validated['password'] = Hash::make($validated['password']);
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        Log::info('User created', ['email' => $user->email, 'role' => $user->role, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
@@ -51,7 +54,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $isSuperadmin = $user->id === 1;
+        $superadminEmail = config('auth.superadmin_email', 'superadmin@msp.com');
+        $isSuperadmin = $user->email === $superadminEmail;
         $isSelf = $user->id === auth()->id();
 
         // Superadmin: hanya bisa update password diri sendiri
@@ -85,18 +89,22 @@ class UserController extends Controller
 
         $user->update($validated);
 
+        Log::info('User updated', ['id' => $user->id, 'email' => $user->email, 'by' => auth()->user()->name]);
+
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil diperbarui.');
     }
 
     public function destroy(User $user)
     {
-        if ($user->id === 1) {
+        if ($user->email === config('auth.superadmin_email', 'superadmin@msp.com')) {
             return redirect()->route('admin.users.index')->with('error', 'Akun superadmin tidak dapat dihapus.');
         }
 
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun sendiri.');
         }
+
+        Log::info('User deleted', ['id' => $user->id, 'email' => $user->email, 'by' => auth()->user()->name]);
 
         $user->delete();
 

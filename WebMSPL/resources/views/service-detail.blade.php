@@ -80,12 +80,11 @@
     <div class="mx-2 md:mx-4 lg:mx-6 py-14 md:py-18 bg-msp-navy rounded-3xl">
         <div class="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="flex flex-col gap-3">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">Konsultasi Gratis</span>
                 <h2 class="font-space text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-snug">Butuh Konsultasi?</h2>
                 <p class="text-msp-light text-base md:text-lg leading-relaxed max-w-[480px]">Konsultasi gratis dengan tim ahli kami untuk kebutuhan bisnis Anda.</p>
             </div>
             <a href="{{ route('contact') }}"
-                class="shrink-0 inline-flex items-center gap-2 px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition-all duration-300 hover:brightness-110 hover:shadow-lg whitespace-nowrap">
+                class="shrink-0 inline-flex items-center gap-2 px-8 py-3.5 bg-msp-gold text-msp-navy font-bold text-sm rounded-xl transition duration-300 hover:brightness-110 hover:shadow-lg whitespace-nowrap">
                 Hubungi Kami
                 <i class="fas fa-arrow-right text-xs"></i>
             </a>

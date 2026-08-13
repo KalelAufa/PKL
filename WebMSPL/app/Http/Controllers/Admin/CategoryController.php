@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -29,7 +30,9 @@ class CategoryController extends Controller
             'slug' => 'required|string|max:255|unique:categories,slug',
         ]);
 
-        Category::create($validated);
+        $category = Category::create($validated);
+
+        Log::info('Category created', ['name' => $category->name, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -48,6 +51,8 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
+        Log::info('Category updated', ['id' => $category->id, 'name' => $category->name, 'by' => auth()->user()->name]);
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
@@ -57,6 +62,8 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')
                 ->with('error', 'Kategori tidak dapat dihapus karena masih memiliki berita terkait.');
         }
+
+        Log::info('Category deleted', ['id' => $category->id, 'name' => $category->name, 'by' => auth()->user()->name]);
 
         $category->delete();
 

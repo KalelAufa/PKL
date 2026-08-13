@@ -33,11 +33,11 @@
             </nav>
 
             {{-- Article Header --}}
-            <div class="flex flex-col items-center gap-3">
-                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase text-center">{{ $news->category?->name ?? 'Uncategorized' }} &bull; {{ \Carbon\Carbon::parse($news->published_at)->translatedFormat('d M Y') }}</span>
-                <h1 class="font-space font-bold text-msp-dark text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight text-center">{{ $news->title }}</h1>
+            <div class="flex flex-col gap-3">
+                <span class="font-mono text-msp-gold text-xs tracking-widest uppercase">{{ $news->category?->name ?? 'Uncategorized' }} &bull; {{ \Carbon\Carbon::parse($news->published_at)->translatedFormat('d M Y') }}</span>
+                <h1 class="font-space font-bold text-msp-dark text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">{{ $news->title }}</h1>
                 @if($news->excerpt)
-                    <p class="text-msp-gray text-base md:text-lg leading-relaxed text-center max-w-[640px] pt-1">{{ $news->excerpt }}</p>
+                    <p class="text-msp-gray text-base md:text-lg leading-relaxed max-w-[640px] pt-1">{{ $news->excerpt }}</p>
                 @endif
             </div>
 
@@ -78,17 +78,17 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach($relatedNews as $item)
-                <article class="bg-white border border-msp-border rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                <article class="bg-white border border-msp-border rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
                     <div class="overflow-hidden relative h-52 shrink-0">
                         <img src="{{ $item->thumbnail_url }}" alt="{{ $item->title }}"
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:-translate-y-0.5">
                     </div>
                     <div class="flex flex-col gap-2 p-6 flex-1">
                         <span class="font-mono text-msp-gold text-[10px] tracking-widest uppercase font-medium">{{ $item->category?->name ?? 'Uncategorized' }} &bull; {{ \Carbon\Carbon::parse($item->published_at)->translatedFormat('d M Y') }}</span>
                         <h3 class="font-space font-semibold text-msp-dark text-xl leading-snug">{{ $item->title }}</h3>
                         <p class="text-msp-gray text-sm leading-relaxed flex-1">{{ $item->excerpt }}</p>
                         <a href="{{ route('news.show', $item->slug) }}"
-                            class="inline-flex items-center gap-1.5 text-msp-navy font-bold text-sm transition-all duration-300 hover:gap-2.5 group mt-auto">
+                            class="inline-flex items-center gap-1.5 text-msp-navy font-bold text-sm transition duration-300 hover:gap-2.5 group mt-auto">
                             Baca Selengkapnya
                             <i class="fas fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
                         </a>

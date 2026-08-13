@@ -38,11 +38,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B2145] via-[rgba(11,33,69,0.75)] to-[rgba(11,33,69,0.45)]"></div>
 
                 <div class="absolute bottom-0 left-0 right-0 flex flex-col px-7 py-10 md:px-12 md:py-14 lg:px-16 lg:py-16">
-                    {{-- Eyebrow --}}
-                    <p class="font-mono text-msp-gold text-xs md:text-sm tracking-widest uppercase mb-4 md:mb-5">
-                        Mitra Strategis Bisnis Anda
-                    </p>
-
                     <h1 class="font-space text-white text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-tight font-bold max-w-3xl mb-5 md:mb-6">
                         {{ $pageContents['hero_title']->value ?? 'Outsourcing, Lingkungan, dan Pest Control — Satu Mitra, Satu Standar.' }}
                     </h1>
@@ -53,12 +48,12 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
 
                     <div class="flex flex-wrap gap-3">
                         <a href="{{ route('contact') }}"
-                           class="inline-flex items-center gap-2 px-6 py-3 bg-msp-gold text-msp-navy font-semibold text-sm rounded-xl transition-all duration-200 hover:brightness-110 hover:shadow-lg hover:shadow-[rgba(242,167,27,0.3)]">
+                           class="inline-flex items-center gap-2 px-6 py-3 bg-msp-gold text-msp-navy font-semibold text-sm rounded-xl transition duration-200 hover:brightness-110 hover:shadow-lg hover:shadow-[rgba(242,167,27,0.3)]">
                             Mulai Konsultasi
                             <i class="fas fa-arrow-right text-xs"></i>
                         </a>
                         <a href="{{ route('services') }}"
-                           class="inline-flex items-center gap-2 px-6 py-3 border border-[rgba(255,255,255,0.35)] text-white font-medium text-sm rounded-xl transition-all duration-200 hover:bg-[rgba(255,255,255,0.1)] hover:border-white">
+                           class="inline-flex items-center gap-2 px-6 py-3 border border-[rgba(255,255,255,0.35)] text-white font-medium text-sm rounded-xl transition duration-200 hover:bg-[rgba(255,255,255,0.1)] hover:border-white">
                             Lihat Layanan
                         </a>
                     </div>
@@ -104,7 +99,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
 
             {{-- Text --}}
             <div class="flex flex-col gap-6 pt-6 md:pt-0">
-                <p class="font-mono text-msp-gold text-xs tracking-widest uppercase">Tentang Kami</p>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl lg:text-[38px] leading-snug font-bold">
                     {{ $pageContents['about_title']->value ?? 'Dedikasi untuk Keamanan dan Kelancaran Bisnis Anda' }}
                 </h2>
@@ -140,7 +134,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
         <div class="max-w-[1302px] mx-auto px-6">
             <div class="flex flex-wrap items-end justify-between gap-4 mb-12">
                 <div>
-                    <p class="font-mono text-msp-gold text-xs tracking-widest uppercase mb-3">Berita Terbaru</p>
                     <h2 class="font-space text-msp-navy text-2xl md:text-3xl font-bold leading-snug">
                         {{ $pageContents['news_section_title']->value ?? 'Apa Kabar MSP?' }}
                     </h2>
@@ -156,11 +149,11 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
                     @forelse ($news as $item)
                         <div class="swiper-slide h-auto">
                             <a href="{{ route('news.show', $item->slug) }}" class="group block h-full">
-                                <article class="flex flex-col bg-white border border-msp-border rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 h-full">
+                                <article class="flex flex-col bg-white border border-msp-border rounded-2xl overflow-hidden shadow-sm transition duration-300 hover:shadow-md hover:-translate-y-1 h-full">
                                     <div class="overflow-hidden">
                                         <img src="{{ $item->thumbnail_url }}" alt="{{ $item->title }}"
                                              loading="lazy"
-                                             class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                                             class="w-full h-48 object-cover transition-transform duration-500 group-hover:-translate-y-0.5">
                                     </div>
                                     <div class="flex flex-col gap-2 p-5 md:p-6 flex-1">
                                         <span class="font-mono text-msp-gold text-xs tracking-wide uppercase">
@@ -187,7 +180,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
     <section class="py-20 md:py-28 bg-white" data-aos="fade-up" data-aos-duration="700">
         <div class="max-w-[1302px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div class="flex flex-col gap-6 order-2 md:order-1">
-                <p class="font-mono text-msp-gold text-xs tracking-widest uppercase">Pendekatan Kami</p>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl lg:text-[38px] leading-snug font-bold">
                     {{ $pageContents['innovation_title']->value ?? 'Inovasi Berkelanjutan untuk Kepuasan Klien' }}
                 </h2>
@@ -215,7 +207,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
     <section class="py-20 md:py-28 bg-msp-bg" data-aos="fade-up" data-aos-duration="700">
         <div class="max-w-[1302px] mx-auto px-6">
             <div class="max-w-xl mb-12 md:mb-16">
-                <p class="font-mono text-msp-gold text-xs tracking-widest uppercase mb-3">Layanan Utama</p>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl lg:text-[38px] leading-snug font-bold mb-4">
                     {{ $pageContents['services_grid_title']->value ?? 'Jasa Outsourcing MSP' }}
                 </h2>
@@ -226,12 +217,12 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
                 @foreach ($outsourcingSubServices as $card)
                     <a href="{{ route('service.detail', $card->slug) }}"
-                       class="group relative flex flex-col bg-msp-bg rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 min-h-90">
+                       class="group relative flex flex-col bg-msp-bg rounded-2xl overflow-hidden shadow-sm transition duration-300 hover:shadow-lg hover:-translate-y-1 min-h-90">
                         <div class="overflow-hidden h-52 shrink-0">
                             @if($card->hero_image)
                                 <img src="{{ asset('images/' . $card->hero_image) }}"
                                      alt="{{ $card->title }}" loading="lazy"
-                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:-translate-y-0.5">
                             @else
                                 <div class="w-full h-full bg-linear-to-br from-msp-bg to-msp-bg-alt flex items-center justify-center">
                                     <i class="{{ $card->icon ?? 'fas fa-cogs' }} text-4xl text-msp-border"></i>
@@ -247,7 +238,7 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
             </div>
             <div class="text-center mt-10">
                 <a href="{{ route('services') }}"
-                   class="inline-flex items-center gap-2 px-7 py-3 bg-msp-navy text-white font-semibold text-sm rounded-xl transition-all duration-200 hover:bg-msp-blue">
+                   class="inline-flex items-center gap-2 px-7 py-3 bg-msp-navy text-white font-semibold text-sm rounded-xl transition duration-200 hover:bg-msp-blue">
                     Semua Layanan <i class="fas fa-arrow-right text-xs"></i>
                 </a>
             </div>
@@ -258,7 +249,6 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
     <section class="py-20 md:py-28 bg-white" data-aos="fade-up" data-aos-duration="700">
         <div class="max-w-[1302px] mx-auto px-6">
             <div class="max-w-xl mb-12">
-                <p class="font-mono text-msp-gold text-xs tracking-widest uppercase mb-3">Layanan Lainnya</p>
                 <h2 class="font-space text-msp-navy text-2xl md:text-3xl font-bold leading-snug">
                     Solusi Lingkungan & Pengendalian Hama
                 </h2>
@@ -266,7 +256,7 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-5">
                 @if ($perizinan)
                     <a href="{{ route('service.detail', $perizinan->slug) }}"
-                       class="group flex flex-col gap-4 p-7 bg-white rounded-2xl border border-msp-border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                       class="group flex flex-col gap-4 p-7 bg-white rounded-2xl border border-msp-border shadow-sm transition duration-300 hover:shadow-md hover:-translate-y-1">
                         <div class="w-12 h-12 flex items-center justify-center bg-[rgba(11,33,69,0.06)] rounded-xl group-hover:bg-[rgba(242,167,27,0.12)] transition-colors duration-200">
                             <i class="fas fa-stamp text-msp-navy text-base group-hover:text-msp-gold transition-colors duration-200"></i>
                         </div>
@@ -274,14 +264,14 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
                             <h3 class="font-space text-msp-navy text-xl font-bold mb-2">{{ $perizinan->title }}</h3>
                             <p class="text-msp-gray text-sm leading-6">{{ $perizinan->excerpt }}</p>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 text-msp-blue text-sm font-semibold group-hover:gap-2.5 transition-all duration-200">
+                        <span class="inline-flex items-center gap-1.5 text-msp-blue text-sm font-semibold group-hover:gap-2.5 transition duration-200">
                             Pelajari Lebih Lanjut <i class="fas fa-arrow-right text-xs"></i>
                         </span>
                     </a>
                 @endif
                 @if ($pestControl)
                     <a href="{{ route('service.detail', $pestControl->slug) }}"
-                       class="group flex flex-col gap-4 p-7 bg-white rounded-2xl border border-msp-border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                       class="group flex flex-col gap-4 p-7 bg-white rounded-2xl border border-msp-border shadow-sm transition duration-300 hover:shadow-md hover:-translate-y-1">
                         <div class="w-12 h-12 flex items-center justify-center bg-[rgba(11,33,69,0.06)] rounded-xl group-hover:bg-[rgba(242,167,27,0.12)] transition-colors duration-200">
                             <i class="fas fa-bug text-msp-navy text-base group-hover:text-msp-gold transition-colors duration-200"></i>
                         </div>
@@ -289,7 +279,7 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
                             <h3 class="font-space text-msp-navy text-xl font-bold mb-2">{{ $pestControl->title }}</h3>
                             <p class="text-msp-gray text-sm leading-6">{{ $pestControl->excerpt }}</p>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 text-msp-blue text-sm font-semibold group-hover:gap-2.5 transition-all duration-200">
+                        <span class="inline-flex items-center gap-1.5 text-msp-blue text-sm font-semibold group-hover:gap-2.5 transition duration-200">
                             Pelajari Lebih Lanjut <i class="fas fa-arrow-right text-xs"></i>
                         </span>
                     </a>
@@ -303,15 +293,17 @@ $pestControl = $services->firstWhere('slug', 'pest-control');
 
     {{-- CTA Banner --}}
     <section class="py-16 md:py-20 bg-msp-navy" data-aos="fade-up" data-aos-duration="700">
-        <div class="max-w-2xl mx-auto px-6 text-center">
-            <h2 class="font-space text-white text-2xl md:text-3xl font-bold leading-snug mb-4">
-                Siap bermitra dengan kami?
-            </h2>
-            <p class="text-[rgba(211,218,234,0.85)] text-base leading-7 mb-8">
-                Konsultasikan kebutuhan bisnis Anda bersama tim ahli kami — tanpa komitmen awal.
-            </p>
+        <div class="max-w-[1302px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex flex-col gap-3 max-w-xl">
+                <h2 class="font-space text-white text-2xl md:text-3xl font-bold leading-snug">
+                    Siap bermitra dengan kami?
+                </h2>
+                <p class="text-[rgba(211,218,234,0.85)] text-base leading-7">
+                    Konsultasikan kebutuhan bisnis Anda bersama tim ahli kami — tanpa komitmen awal.
+                </p>
+            </div>
             <a href="{{ route('contact') }}"
-               class="inline-flex items-center gap-2 px-8 py-3.5 bg-msp-gold text-msp-navy font-semibold text-sm rounded-xl transition-all duration-200 hover:brightness-110 hover:shadow-lg hover:shadow-[rgba(242,167,27,0.3)]">
+               class="shrink-0 inline-flex items-center gap-2 px-8 py-3.5 bg-msp-gold text-msp-navy font-semibold text-sm rounded-xl transition duration-200 hover:brightness-110 hover:shadow-lg whitespace-nowrap">
                 Hubungi Kami
                 <i class="fas fa-arrow-right text-xs"></i>
             </a>

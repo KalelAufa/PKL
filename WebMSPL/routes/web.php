@@ -28,7 +28,7 @@ Route::get('/kebijakan-privasi', fn() => view('privacy-policy'))->name('privacy'
 
 Route::get('/admin/login', function () {
     return view('admin.login');
-})->middleware('guest')->name('admin.login');
+})->middleware(['guest', 'throttle:5,1'])->name('admin.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -57,10 +57,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::put('company-settings', [\App\Http\Controllers\Admin\CompanySettingsController::class, 'update'])->name('company-settings.update');
     });
     Route::post('upload-image', function (\Illuminate\Http\Request $request) {
-        $request->validate(['file' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048']);
-        $file = $request->file('file');
-        $name = \Illuminate\Support\Str::uuid() . '.' . $file->extension();
-        $file->move(public_path('images'), $name);
+        $request->validate(['file' => 'required|image|mimes:jpeg,png,jpg,webp,gif|max:5120']);
+        $name = \App\Helpers\ImageHelper::saveAsWebP($request->file('file'), public_path('images'));
         return response()->json(['path' => 'images/' . $name, 'basename' => $name]);
     })->name('upload-image');
 });

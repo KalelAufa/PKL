@@ -10,7 +10,7 @@
         </div>
         <a href="{{ route('admin.team-members.create') }}"
            class="shrink-0 h-10 px-5 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B] inline-flex items-center gap-2 hover:brightness-95 transition shadow-[0_2px_8px_rgba(242,167,27,0.2)]"
-           style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+           style="background: var(--gradient-gold)">
             <i class="fas fa-plus text-[11px]"></i>
             Tambah Anggota
         </a>
@@ -25,24 +25,24 @@
             <p class="font-inter text-[13px] text-msp-gray-light mb-4">Tambahkan profil anggota tim untuk ditampilkan di halaman perusahaan.</p>
             <a href="{{ route('admin.team-members.create') }}"
                class="inline-flex items-center gap-2 h-9 px-5 rounded-lg font-hanken font-bold text-[13px] text-[#071B3B]"
-               style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+               style="background: var(--gradient-gold)">
                 <i class="fas fa-plus text-[10px]"></i> Tambah Anggota Pertama
             </a>
         </div>
     @else
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($teamMembers as $member)
-                <div class="bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-md hover:border-msp-gold/30 transition-all duration-200 group flex flex-col">
+                <div class="bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-md hover:border-msp-gold/30 transition duration-200 group flex flex-col">
 
                     {{-- Photo area --}}
                     <div class="relative aspect-square bg-msp-bg-alt overflow-hidden">
                         @if ($member->photo)
                             <img src="{{ asset('images/' . $member->photo) }}"
                                  alt="{{ $member->name }}"
-                                 class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+                                 class="w-full h-full object-cover object-top group-hover:-translate-y-0.5 transition duration-500">
                         @else
                             <div class="w-full h-full flex items-center justify-center"
-                                 style="background: linear-gradient(135deg, #0B2145 0%, #0B1E3E 100%)">
+                                 style="background: var(--gradient-sidebar)">
                                 <span class="font-space font-bold text-[40px] text-white/80 select-none">
                                     {{ strtoupper(substr($member->name, 0, 1)) }}
                                 </span>

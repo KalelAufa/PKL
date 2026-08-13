@@ -8,7 +8,7 @@
                     <i class="fas fa-chevron-left"></i>
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-bg hover:text-msp-navy hover:border-msp-gold transition-all duration-200">
+                <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-bg hover:text-msp-navy hover:border-msp-gold transition duration-200">
                     <i class="fas fa-chevron-left"></i>
                 </a>
             @endif
@@ -24,7 +24,7 @@
                         @if ($page == $paginator->currentPage())
                             <span aria-current="page" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-white bg-msp-navy border border-msp-navy text-sm font-bold cursor-default">{{ $page }}</span>
                         @else
-                            <a href="{{ $url }}" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-navy hover:text-white hover:border-msp-navy transition-all duration-200 text-sm font-medium" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
+                            <a href="{{ $url }}" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-navy hover:text-white hover:border-msp-navy transition duration-200 text-sm font-medium" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
                                 {{ $page }}
                             </a>
                         @endif
@@ -34,7 +34,7 @@
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-bg hover:text-msp-navy hover:border-msp-gold transition-all duration-200">
+                <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-msp-gray bg-white border border-msp-border hover:bg-msp-bg hover:text-msp-navy hover:border-msp-gold transition duration-200">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             @else

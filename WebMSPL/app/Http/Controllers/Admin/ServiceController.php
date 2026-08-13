@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\ServiceFeature;
 use App\Models\ServiceProcessStep;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ServiceController extends Controller
@@ -52,8 +54,12 @@ class ServiceController extends Controller
         foreach (['icon_image', 'hero_image', 'gallery_image_1', 'gallery_image_2', 'brochure_pdf'] as $field) {
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
-                $filename = Str::uuid() . '.' . $file->extension();
-                $file->move(public_path('images'), $filename);
+                if ($field === 'brochure_pdf') {
+                    $filename = Str::uuid() . '.' . $file->extension();
+                    $file->move(public_path('images'), $filename);
+                } else {
+                    $filename = ImageHelper::saveAsWebP($file, public_path('images'));
+                }
                 $validated[$field] = $filename;
             } else {
                 unset($validated[$field]);
@@ -64,6 +70,8 @@ class ServiceController extends Controller
 
         $this->syncFeatures($service, $request);
         $this->syncProcessSteps($service, $request);
+
+        Log::info('Service created', ['title' => $service->title, 'by' => auth()->user()->name]);
 
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
@@ -101,8 +109,12 @@ class ServiceController extends Controller
         foreach (['icon_image', 'hero_image', 'gallery_image_1', 'gallery_image_2', 'brochure_pdf'] as $field) {
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
-                $filename = Str::uuid() . '.' . $file->extension();
-                $file->move(public_path('images'), $filename);
+                if ($field === 'brochure_pdf') {
+                    $filename = Str::uuid() . '.' . $file->extension();
+                    $file->move(public_path('images'), $filename);
+                } else {
+                    $filename = ImageHelper::saveAsWebP($file, public_path('images'));
+                }
                 $validated[$field] = $filename;
             } else {
                 unset($validated[$field]);
@@ -114,11 +126,15 @@ class ServiceController extends Controller
         $this->syncFeatures($service, $request);
         $this->syncProcessSteps($service, $request);
 
+        Log::info('Service updated', ['id' => $service->id, 'title' => $service->title, 'by' => auth()->user()->name]);
+
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
     public function destroy(Service $service)
     {
+        Log::info('Service deleted', ['id' => $service->id, 'title' => $service->title, 'by' => auth()->user()->name]);
+
         $service->features()->delete();
         $service->processSteps()->delete();
         $service->delete();
@@ -165,7 +181,7 @@ class ServiceController extends Controller
             ];
 
             if (!empty($feature['id'])) {
-                $service->features()->where('id', $feature['id'])->update($data);
+                $service->features()->where('id', $feature['id'])->where('service_id', $service->id)->update($data);
                 $incomingIds[] = $feature['id'];
             } else {
                 $new = $service->features()->create($data);
@@ -196,7 +212,7 @@ class ServiceController extends Controller
             ];
 
             if (!empty($step['id'])) {
-                $service->processSteps()->where('id', $step['id'])->update($data);
+                $service->processSteps()->where('id', $step['id'])->where('service_id', $service->id)->update($data);
                 $incomingIds[] = $step['id'];
             } else {
                 $new = $service->processSteps()->create($data);

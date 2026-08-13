@@ -10,7 +10,7 @@
         </div>
         <a href="{{ route('admin.services.create') }}"
            class="shrink-0 h-10 px-5 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B] inline-flex items-center gap-2 hover:brightness-95 transition shadow-[0_2px_8px_rgba(242,167,27,0.2)]"
-           style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+           style="background: var(--gradient-gold)">
             <i class="fas fa-plus text-[11px]"></i>
             Tambah Layanan
         </a>
@@ -23,13 +23,13 @@
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         @forelse ($services as $service)
             @php $faIcon = (str_starts_with($service->icon ?? '', 'fa') ? $service->icon : 'fas fa-cogs'); @endphp
-            <div class="bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition-all duration-200 group flex flex-col">
+            <div class="bg-white rounded-2xl border border-msp-border overflow-hidden hover:shadow-lg hover:border-msp-gold/30 transition duration-200 group flex flex-col">
 
                 {{-- Hero image --}}
                 <div class="h-36 bg-msp-bg-alt relative overflow-hidden shrink-0">
                     @if($service->hero_image)
-                        <img src="{{ asset('images/' . $service->hero_image) }}" alt=""
-                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="{{ asset('images/' . $service->hero_image) }}" alt="{{ $service->title }}"
+                             class="w-full h-full object-cover group-hover:-translate-y-0.5 transition duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                     @else
                         <div class="w-full h-full flex flex-col items-center justify-center gap-1.5 bg-gradient-to-br from-msp-bg to-msp-bg-alt">
@@ -57,7 +57,7 @@
                 <div class="p-4 flex flex-col flex-1">
                     <div class="flex items-start gap-3 mb-3">
                         @if($service->icon_image)
-                            <img src="{{ asset('images/' . $service->icon_image) }}" alt=""
+                            <img src="{{ asset('images/' . $service->icon_image) }}" alt="Icon {{ $service->title }}"
                                  class="w-11 h-11 rounded-xl object-cover shrink-0 border border-msp-border shadow-sm">
                         @else
                             <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 shadow-sm
@@ -136,7 +136,7 @@
                 <p class="font-inter text-[14px] text-msp-gray-light mb-5">Tambahkan layanan yang ditawarkan PT MSP.</p>
                 <a href="{{ route('admin.services.create') }}"
                    class="inline-flex items-center gap-2 h-10 px-6 rounded-xl font-hanken font-bold text-[14px] text-[#071B3B]"
-                   style="background: linear-gradient(135deg, #F2A71B 0%, #FBC34C 100%)">
+                   style="background: var(--gradient-gold)">
                     <i class="fas fa-plus text-[11px]"></i> Tambah Layanan Pertama
                 </a>
             </div>
